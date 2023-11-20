@@ -43,6 +43,7 @@ class Ser:
                 if(not msg):
                     break
                 self.ser.write(msg)
+                # time.sleep(1)
             
 
 class App(tk.Frame):

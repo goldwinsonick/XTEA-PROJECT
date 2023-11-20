@@ -11,6 +11,7 @@ entity FrameSep is
 		  en_mod : out std_logic(7 downto 0);
 		  en_key : out std_logic(7 downto 0);
 		  en_msg : out std_logic(7 downto 0);
+		  shift  : out std_logic;
 		);
 end FrameSep;
 
@@ -39,6 +40,7 @@ begin
 		 en_mod <= '00000000';
 		 en_key <= '00000000';
 		 en_msg <= '00000000';
+		 shift  <= '0'
 		 
 		 if (i_rx = '00000001') then
 			nState <= start;
@@ -49,6 +51,7 @@ begin
 		 en_mod <= '00000000';
 		 en_key <= '00000000';
 		 en_msg <= '00000000';
+		 shift  <= '0'
 		 nState <= mode;
 		 
 	when mode =>
@@ -56,6 +59,7 @@ begin
 		 en_mod <= '11111111';
 		 en_key <= '00000000';
 		 en_msg <= '00000000';
+		 shift  <= '0'
 		 nState <= key;
 	
 	when key =>
@@ -63,11 +67,12 @@ begin
 		 en_mod <= '00000000';
 		 en_key <= '11111111';
 		 en_msg <= '00000000';
+		 shift  <= '0'
 		 count <= count + 1;
 		 
 		 if (count = 4) then
-			nState <= msg;
-			count <= '1';
+			 count <= '1';
+			 nState <= msg;
 		 else
 			nState <= key;
 		 end if;
@@ -77,14 +82,20 @@ begin
 		 en_mod <= '00000000';
 		 en_key <= '00000000';
 		 en_msg <= '11111111';
+		 shift  <= '0';
 		 count <= count + 1;
 		 
-		 if (count = 4) then
-			nState <= idle;
-			count <= '1';
+		 if (i_rx = '00000011') then
+			 count <= '1';
+			 nState <= idle;
 		 else 
-			nState <= msg;
-		end if;
+			if (count = 4) then
+				shift <= '1';
+				nState <= msg;
+			else
+				nState <= msg;
+			end if;
+		 end if;
 		
 	end process;
 	

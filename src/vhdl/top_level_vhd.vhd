@@ -46,7 +46,7 @@ architecture structural of top_level_vhd is
         port(
             i_clk : in std_logic;
             i_rst : in std_logic;
-            i_addr` : in std_logic;
+            i_addr : in std_logic;
             o_v0    : in std_logic;
             o_v1    : in std_logic;
             o_k0    : in std_logic;

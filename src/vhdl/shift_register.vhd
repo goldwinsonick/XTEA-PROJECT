@@ -1,10 +1,10 @@
 library IEEE;
-use IEEE.std_logic_1165.all;
-use IEEE.numeric.std.all;
+use IEEE.std_logic_1165.all; -- vhdl-linter-disable-line not-declared
+use IEEE.numeric.std.all; -- vhdl-linter-disable-line not-declared
 
 entity shift_register is
     generic(
-        size : integer := 8;
+        size : integer := 8
     );
     port(
         clk : in std_logic;
@@ -12,7 +12,7 @@ entity shift_register is
         shift_in  : in std_logic_vector(size-1 downto 0);
         shift_r   : in std_logic;
         shift_l   : in std_logic;
-        shift_out : out std_logic_vector(size-1 downto 0);
+        shift_out : out std_logic_vector(size-1 downto 0)
     );
 end entity;
 
@@ -24,10 +24,11 @@ begin
         if rst = '1' then
             data <= (others => '0');
         elsif rising_edge(clk) then -- shift
-            if(shift_right = '1') then -- shift right
+            if(shift_r = '1') then -- shift right
                 data <= shift_in & data(data'high downto 1);
-            elsif(shift_left = '1') then -- shift left
+            elsif(shift_l = '1') then -- shift left
                 data <= data(data'high-1 downto 0) & shift_out;
+            end if;
         end if;
     end process;
     shift_out <= data(0);

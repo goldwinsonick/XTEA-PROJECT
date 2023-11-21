@@ -3,100 +3,94 @@ use IEEE.std_logic_1164.all;
 use IEEE.std_logic_arith.all;
 use IEEE.std_logic_unsigned.all;
 
-entity FrameSep is
-	port( rst  : in std_logic;
-		  clk  : in std_logic;
-		  i_rx : in std_logic_vector(7 downto 0);
-		  o_data : out std_logic(7 downto 0);
-		  en_mod : out std_logic(7 downto 0);
-		  en_key : out std_logic(7 downto 0);
-		  en_msg : out std_logic(7 downto 0);
-		  shift  : out std_logic;
-		);
-end FrameSep;
+entity frame is
+ port( rst  : in std_logic;
+    clk  : in std_logic;
+    i_rx : in std_logic_vector(7 downto 0);
+    o_data : out std_logic_vector(7 downto 0);
+    en_mod : out std_logic_vector(7 downto 0);
+    en_key : out std_logic_vector(7 downto 0);
+    en_msg : out std_logic_vector(7 downto 0);
+    shift  : out std_logic);
+end frame;
 
-architecture Seperator of FrameSep is
-	type states is (idle, start, mode, key, msg,);
-	signal cState, nState: states;
-	
+architecture behavioral of frame is
+ type states is (idle, start, mode, key, msg);
+ signal cState, nState: states;
+ 
 begin
-	process(rst, clk)
-	begin
-	if (rst = '1') then
-		cState <= idle;
-	elsif (clk'event and clk ='1') then
-		cState <= nState;
-	end if;
-	end process;
-	
-	process(i_rx)
-	variable count : integer := 1;
-	begin
-	nState <= cState
-	case cState is
-	
-	when idle => 
-		 o_data <= '00000000';
-		 en_mod <= '00000000';
-		 en_key <= '00000000';
-		 en_msg <= '00000000';
-		 shift  <= '0'
-		 
-		 if (i_rx = '00000001') then
-			nState <= start;
-		 end if;
-		 
-	when start =>
-		 o_data <= i_rx;
-		 en_mod <= '00000000';
-		 en_key <= '00000000';
-		 en_msg <= '00000000';
-		 shift  <= '0'
-		 nState <= mode;
-		 
-	when mode =>
-		 o_data <= i_rx;
-		 en_mod <= '11111111';
-		 en_key <= '00000000';
-		 en_msg <= '00000000';
-		 shift  <= '0'
-		 nState <= key;
-	
-	when key =>
-		 o_data <= i_rx;
-		 en_mod <= '00000000';
-		 en_key <= '11111111';
-		 en_msg <= '00000000';
-		 shift  <= '0'
-		 count <= count + 1;
-		 
-		 if (count = 4) then
-			 count <= '1';
-			 nState <= msg;
-		 else
-			nState <= key;
-		 end if;
-		 
-	when msg =>
-		 o_data <= i_rx;
-		 en_mod <= '00000000';
-		 en_key <= '00000000';
-		 en_msg <= '11111111';
-		 shift  <= '0';
-		 count <= count + 1;
-		 
-		 if (i_rx = '00000011') then
-			 count <= '1';
-			 nState <= idle;
-		 else 
-			if (count = 4) then
-				shift <= '1';
-				nState <= msg;
-			else
-				nState <= msg;
-			end if;
-		 end if;
-		
-	end process;
-	
+ process(rst, clk)
+ begin
+ if (rst = '1') then
+  cState <= idle;
+ elsif (clk'event and clk ='1') then
+  cState <= nState;
+ end if;
+ end process;
+ 
+ process(i_rx)
+ variable count : integer := 1;
+ begin
+ nState <= cState;
+ case cState is
+ 
+ when idle => shift <= '0';
+   o_data <= "00000000";
+   en_mod <= "00000000";
+   en_key <= "00000000";
+   en_msg <= "00000000";
+   
+   if (i_rx = "00000001") then
+   nState <= start;
+   end if;
+   
+ when start => shift <= '0';
+   o_data <= i_rx;
+   en_mod <= "00000000";
+   en_key <= "00000000";
+   en_msg <= "00000000";
+   nState <= mode;
+   
+ when mode => shift <= '0';
+   o_data <= i_rx;
+   en_mod <= "11111111";
+   en_key <= "00000000";
+   en_msg <= "00000000";
+   nState <= key;
+ 
+ when key => shift <= '0';
+   o_data <= i_rx;
+   en_mod <= "00000000";
+   en_key <= "11111111";
+   en_msg <= "00000000";
+   count := count + 1;
+   
+   if (count = 4) then
+    count := 1;
+    nState <= msg;
+   else
+   nState <= key;
+   end if;
+   
+ when msg => shift <= '0';
+   o_data <= i_rx;
+   en_mod <= "00000000";
+   en_key <= "00000000";
+   en_msg <= "11111111";
+   count := count + 1;
+   
+   if (i_rx = "00000011") then
+    count := 1;
+    nState <= idle;
+   else if (count = 4) then
+    shift <= '1';
+    nState <= msg;
+   else
+    nState <= msg;
+   end if;
+   end if;
+ end case;
+
+ end process;
+ 
 end behavioral;

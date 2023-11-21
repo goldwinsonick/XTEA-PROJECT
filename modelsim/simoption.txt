@@ -1,0 +1,98 @@
+# first time only
+add wave -position insertpoint  \
+sim:/xtea_engine_1/i_clk \
+sim:/xtea_engine_1/reset \
+sim:/xtea_engine_1/en_de \
+sim:/xtea_engine_1/v0 \
+sim:/xtea_engine_1/v1 \
+sim:/xtea_engine_1/k1 \
+sim:/xtea_engine_1/k2 \
+sim:/xtea_engine_1/k3 \
+sim:/xtea_engine_1/k4 \
+sim:/xtea_engine_1/out_0 \
+sim:/xtea_engine_1/out_1 \
+sim:/xtea_engine_1/done \
+sim:/xtea_engine_1/currentState \
+sim:/xtea_engine_1/nextState \
+sim:/xtea_engine_1/sum \
+sim:/xtea_engine_1/t_sum \
+sim:/xtea_engine_1/t_v0 \
+sim:/xtea_engine_1/t_v1 
+
+# changed
+add wave -position insertpoint  \
+sim:/xtea_engine_1/i_clk \
+sim:/xtea_engine_1/reset \
+sim:/xtea_engine_1/en_de \
+sim:/xtea_engine_1/v0 \
+sim:/xtea_engine_1/v1 \
+sim:/xtea_engine_1/k1 \
+sim:/xtea_engine_1/k2 \
+sim:/xtea_engine_1/k3 \
+sim:/xtea_engine_1/k4 \
+sim:/xtea_engine_1/out_0 \
+sim:/xtea_engine_1/out_1 \
+sim:/xtea_engine_1/done \
+sim:/xtea_engine_1/currentState \
+sim:/xtea_engine_1/nextState 
+
+# encrypt
+force -freeze sim:/xtea_engine_1/i_clk 0 0, 1 {10 ps} -r 20
+force -freeze sim:/xtea_engine_1/reset 0 0
+force -freeze sim:/xtea_engine_1/en_de 1 0
+force -freeze sim:/xtea_engine_1/v0 01000001010011100100101001001001 0
+force -freeze sim:/xtea_engine_1/v1 01001101010000100100010101010100 0
+force -freeze sim:/xtea_engine_1/k1 10111001011101011111010110100101 0
+force -freeze sim:/xtea_engine_1/k2 00010111011111001100011101111000 0
+force -freeze sim:/xtea_engine_1/k3 11011001100111101110101001001011 0
+force -freeze sim:/xtea_engine_1/k4 00101000100110011101110100110011 0
+
+# decrypt
+force -freeze sim:/xtea_engine_1/i_clk 0 0, 1 {10 ps} -r 20
+force -freeze sim:/xtea_engine_1/reset 0 0
+force -freeze sim:/xtea_engine_1/en_de 0 0
+force -freeze sim:/xtea_engine_1/v0 11001101011100001100100101111010 0
+force -freeze sim:/xtea_engine_1/v1 01101011110010100111001101000011 0
+force -freeze sim:/xtea_engine_1/k1 10111001011101011111010110100101 0
+force -freeze sim:/xtea_engine_1/k2 00010111011111001100011101111000 0
+force -freeze sim:/xtea_engine_1/k3 11011001100111101110101001001011 0
+force -freeze sim:/xtea_engine_1/k4 00101000100110011101110100110011 0
+
+# IDK
+add wave -position insertpoint  \
+sim:/block_encrypt_reg/clk \
+sim:/block_encrypt_reg/staffel_start \
+sim:/block_encrypt_reg/master_staffel_ende \
+sim:/block_encrypt_reg/v0 \
+sim:/block_encrypt_reg/v1 \
+sim:/block_encrypt_reg/master_y_v0 \
+sim:/block_encrypt_reg/master_y_v1 \
+sim:/block_encrypt_reg/sum \
+sim:/block_encrypt_reg/delta \
+sim:/block_encrypt_reg/master_y_sum \
+sim:/block_encrypt_reg/k0 \
+sim:/block_encrypt_reg/k1 \
+sim:/block_encrypt_reg/k2 \
+sim:/block_encrypt_reg/k3
+force -freeze sim:/block_encrypt_reg/clk 0 0, 1 {10 ps} -r 20
+force -freeze sim:/block_encrypt_reg/staffel_start 1 0
+force -freeze sim:/block_encrypt_reg/v0 01000001010011100100101001001001 0
+force -freeze sim:/block_encrypt_reg/v1 01001101010000100100010101010100 0
+force -freeze sim:/block_encrypt_reg/sum 00000000000000000000000000000000 0
+force -freeze sim:/block_encrypt_reg/delta 10011110001101110111100110111001 0
+force -freeze sim:/block_encrypt_reg/k0 10111001011101011111010110100101 0
+force -freeze sim:/block_encrypt_reg/k1 00010111011111001100011101111000 0
+force -freeze sim:/block_encrypt_reg/k2 11011001100111101110101001001011 0
+force -freeze sim:/block_encrypt_reg/k3 00101000100110011101110100110011 0
+
+#i dont even know
+force -freeze sim:/xtea_engine/i_rst 0 0
+force -freeze sim:/xtea_engine/i_start 1 {200 ps}
+force -freeze sim:/xtea_engine/i_clk 0 0, 1 {50 ps} -r 100
+force -freeze sim:/xtea_engine/i_ende 1 0
+force -freeze sim:/xtea_engine/i_v0 01000001010011100100101001001001 0
+force -freeze sim:/xtea_engine/i_v1 01001101010000100100010101010100 0
+force -freeze sim:/xtea_engine/i_key0 10111001011101011111010110100101 0
+force -freeze sim:/xtea_engine/i_key1 00010111011111001100011101111000 0
+force -freeze sim:/xtea_engine/i_key2 11011001100111101110101001001011 0
+force -freeze sim:/xtea_engine/i_key3 00101000100110011101110100110011 0

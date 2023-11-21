@@ -6,9 +6,9 @@ entity xtea_engine is
     port(
         i_clk, i_rst, i_start               : in std_logic;
         i_v0, i_v1                          : in std_logic_vector(31 downto 0);
-        i_ende                              : in std_logic_vector(31 downto 0);
+        i_ende                              : in std_logic;
         i_key0, i_key1, i_key2, i_key3      : in std_logic_vector(31 downto 0);
-        o_out0, o_out1                      : out std_logic;
+        o_out0, o_out1                      : out std_logic_vector(31 downto 0);
         o_done                              : out std_logic
     );
 end xtea_engine;
@@ -61,11 +61,21 @@ architecture xtea_engine_arc OF xtea_engine IS
         );
     end component;
 
+    component shifter is
+        port(
+            i_data      : in std_logic_vector(31 downto 0);
+            n_bit       : in integer;
+            l_r         : in std_logic;
+            o_data      : out std_logic_vector(31 downto 0)
+        );
+    end component;
+
     constant delta      : std_logic_vector(31 downto 0) := x"9E3779B9";
-    constant num_rounds  : std_logic_vector(31 downto 0) := 32;
+    constant num_rounds  : integer := 32;
 
     -- Controller Signals
     signal operation         : std_logic; -- operation 1 (v0 <= something)
+    signal not_operation     : std_logic;
     signal sel_v0, sel_v1    : std_logic; -- selector input register v0 dan v1 (i_v0 i_v1 or operation final)
     signal en_v0, en_v1      : std_logic; -- enable register v0 dan v1
     signal en_sum_delta      : std_logic; -- enable sum_reg
@@ -86,15 +96,28 @@ architecture xtea_engine_arc OF xtea_engine IS
     signal key_sel_out                              : std_logic_vector(31 downto 0);
     signal key_mux_out                              : std_logic_vector(31 downto 0);
     signal sum_in, sum_out                          : std_logic_vector(31 downto 0);
+    signal shifted_sum                              : std_logic_vector(31 downto 0);
     signal add_sum_delta, sub_sum_delta             : std_logic_vector(31 downto 0);
     signal op_out                                   : std_logic_vector(31 downto 0);
 
+    signal key_sel                                  : std_logic_vector(1 downto 0);
 
     begin
 
+    not_operation <= not(operation);
+    key_sel <= key_sel_out(1 downto 0) AND "11";
+
+    shift_sum : shifter
+        port map (
+            i_data => sum_out,
+            n_bit  => 11,
+            l_r    => '1',
+            o_data => shifted_sum
+        );
+
     fsm : xtea_engine_fsm
         generic map(
-            num_rounds => num_rounds;
+            num_rounds => num_rounds
         )
         port map(
             rst             => i_rst,
@@ -170,11 +193,11 @@ architecture xtea_engine_arc OF xtea_engine IS
         port map(
             i_0 => v0_out,
             i_1 => v1_out,
-            sel => not operation,
+            sel => not_operation,
             o_data => op2_mux_out
         );
     
-    op_temp1 <= std_logic_vector(shift_left(unsigned(op_mux_out), 4) XOR shift_right(unsigned(op_mux_out), 5)) + unsigned(op_mux_out);
+    op_temp1 <= std_logic_vector((shift_left(unsigned(op_mux_out), 4) XOR shift_right(unsigned(op_mux_out), 5)) + unsigned(op_mux_out));
 
     sum_reg : register32
         port map(
@@ -185,8 +208,8 @@ architecture xtea_engine_arc OF xtea_engine IS
             output => sum_out
         );
     
-    add_sum_delta <= unsigned(sum_out) + unsigned(delta);
-    sub_sum_delta <= unsigned(sum_out) - unsigned(delta);
+    add_sum_delta <= std_logic_vector(unsigned(sum_out) + unsigned(delta));
+    sub_sum_delta <= std_logic_vector(unsigned(sum_out) - unsigned(delta));
 
     sum_delta_mux : mux_2in
         generic map(
@@ -204,10 +227,10 @@ architecture xtea_engine_arc OF xtea_engine IS
             n => 32
         )
         port map(
-            i_0 => shift_left(sum_out,11),
+            i_0 => shifted_sum,
             i_1 => sum_out,
             sel => operation,
-            o_data => key_sel_out;
+            o_data => key_sel_out
         );
     
     key_mux : mux_4in
@@ -219,14 +242,14 @@ architecture xtea_engine_arc OF xtea_engine IS
             i_1 => i_key1,
             i_2 => i_key2,
             i_3 => i_key3,
-            sel => key_sel_out AND 3,
+            sel => key_sel,
             o_data => key_mux_out
         );
 
     op_out <= op_temp1 XOR key_mux_out;
 
-    add_op_out <= unsigned(op_out) + op2_mux_out;
-    sub_op_out <= unsigned(op_out) - op2_mux_out;
+    add_op_out <= std_logic_vector(unsigned(op_out) + unsigned(op2_mux_out));
+    sub_op_out <= std_logic_vector(unsigned(op_out) - unsigned(op2_mux_out));
 
     to_reg_mux : mux_2in
         generic map(

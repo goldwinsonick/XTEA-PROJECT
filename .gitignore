@@ -1,1 +1,4 @@
 trash/
+modelsim/*
+!modelsim/work
+!modelsim/scripts

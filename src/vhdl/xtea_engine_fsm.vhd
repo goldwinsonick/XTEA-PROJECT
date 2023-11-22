@@ -8,25 +8,29 @@ entity xtea_engine_fsm is
     );
     port(
         rst, clk, start, ende               : in std_logic;
-        operation, sel_v0, sel_v1           : out std_logic;
-        en_v0, en_v1, en_sum_delta, done    : out std_logic 
+        operation, sel_v0, sel_v1, sel_sum  : out std_logic;
+        en_v0, en_v1, en_sum      , done    : out std_logic 
     );
 end xtea_engine_fsm;
 
 architecture fsm of xtea_engine_fsm is
     type states is (
-        init, s_load, s_op_1, s_op_2, s_sum, s_load_op, s_done
+        init, s_waiting,  s_load, s_op_0, s_op_1, s_sum, s_op_done, s_done
     );
     signal nextState, currentState : states;
+    signal test : integer := 10;
 
-    signal count : integer;
+    signal count : integer := 10;
 
     begin
+
+    -- reset
     process(rst, clk)
     begin
         if (rst = '1') then
             currentState <= init;
         elsif rising_edge(clk) then
+            test <= test+1;
             currentState <= nextState;
         end if;
     end process;
@@ -34,84 +38,91 @@ architecture fsm of xtea_engine_fsm is
     process(start, currentState)
     begin
         case currentState is
-            when init =>
-                if (start = '0') then
-                    nextState <= init;
-                else
+            when init => -- Waiting for start
+                nextState <= s_waiting;
+
+            when s_waiting =>
+                if (start = '1') then
                     nextState <= s_load;
                 end if;
 
-            when s_load =>
+            when s_load => -- loading data to registers
                 en_v0       <= '1';
                 en_v1       <= '1';
+                en_sum      <= '1';
                 sel_v0      <= '1';
                 sel_v1      <= '1';
+                sel_sum     <= '1';
                 operation   <= '0';
                 done        <= '0';
-                en_sum_delta<= '0';
+                count       <= 0;
                 if (ende = '1') then
-                    nextState <= s_op_1;
+                    nextState <= s_op_0;
                 else
-                    nextState <= s_op_2;
+                    nextState <= s_op_1;
                 end if;
 
-            when s_load_op =>
-                en_v0       <= '1';
-                en_v1       <= '1';
+            when s_op_done => -- Finish 1 num_round
+                en_v0       <= '0';
+                en_v1       <= '0';
+                en_sum      <= '0';
                 sel_v0      <= '0';
                 sel_v1      <= '0';
+                sel_sum     <= '0';
                 operation   <= '0';
                 done        <= '0';
-                en_sum_delta<= '0';
                 count       <= count + 1;
-                if (count < num_rounds) then
+                if (count < num_rounds-1) then
                     if (ende = '1') then
-                        nextState <= s_op_1;
+                        nextState <= s_op_0;
                     else
-                        nextState <= s_op_2;
+                        nextState <= s_op_1;
                     end if;
                 else
                     nextState <= s_done;
                 end if;
 
-            when s_op_1 =>
-                en_v0       <= '0';
+            when s_op_0 =>
+                en_v0       <= '1';
                 en_v1       <= '0';
+                en_sum      <= '0';
                 sel_v0      <= '0';
                 sel_v1      <= '0';
+                sel_sum     <= '0';
                 operation   <= '0';
                 done        <= '0';
-                en_sum_delta<= '0';
                 if (ende = '1') then
                     nextState <= s_sum;
                 else
-                    nextState <= s_load;
+                    nextState <= s_op_done;
                 end if;
 
             when s_sum =>
                 en_v0       <= '0';
                 en_v1       <= '0';
+                en_sum      <= '1';
                 sel_v0      <= '0';
                 sel_v1      <= '0';
-                operation   <= '1';
+                sel_sum     <= '0';
+                operation   <= '0';
                 done        <= '0';
-                en_sum_delta<= '1';
                 if (ende = '1') then
-                    operation <= '1';
+                    nextState <= s_op_1;
                 else
-                    operation <= '0';
+                    nextState <= s_op_0;
                 end if;
 
-            when s_op_2 =>
+            when s_op_1 =>
                 en_v0       <= '0';
-                en_v1       <= '0';
+                en_v1       <= '1';
+                en_sum      <= '0';
                 sel_v0      <= '0';
                 sel_v1      <= '0';
+                sel_sum     <= '0';
                 operation   <= '1';
                 done        <= '0';
-                en_sum_delta<= '0';
                 if (ende = '1') then
-                    nextState <= s_load_op;
+                    nextState <= s_op_done;
                 else
                     nextState <= s_sum;
                 end if;
@@ -119,11 +130,13 @@ architecture fsm of xtea_engine_fsm is
             when s_done =>
                 en_v0       <= '0';
                 en_v1       <= '0';
+                en_sum      <= '0';
                 sel_v0      <= '0';
                 sel_v1      <= '0';
+                sel_sum     <= '0';
                 operation   <= '0';
                 done        <= '1';
-                en_sum_delta<= '0';
+                nextState <= s_waiting;
 
         end case;
     end process;

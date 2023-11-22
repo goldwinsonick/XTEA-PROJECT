@@ -20,9 +20,7 @@ key = "abcdefghefgh"
 while(len(key)<16):
     key += "0"
 dataframe = bytearray()
-# dataframe.append(startbyte)
 dataframe += startbyte + bytearray(isEncrypt + key, 'utf-8') + stopbyte
-# dataframe.append(stopbyte)
 
 ser.open()
 time.sleep(2)

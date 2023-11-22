@@ -1,193 +1,295 @@
-LIBRARY ieee;
-USE ieee.std_logic_1164.all;
-USE ieee.numeric_std.all;
+library IEEE;
+use IEEE.std_logic_1164.all;
+use IEEE.numeric_std.all;
 
-ENTITY xtea_engine IS
-    GENERIC (
-        num_rounds      : INTEGER := 32;
-        N               : INTEGER := 32 -- 8 byte
+entity xtea_engine is
+    port(
+        i_clk, i_rst, i_start               : in std_logic;
+        i_v0, i_v1                          : in std_logic_vector(31 downto 0);
+        i_ende                              : in std_logic;
+        i_key0, i_key1, i_key2, i_key3      : in std_logic_vector(31 downto 0);
+        o_out0, o_out1                      : out std_logic_vector(31 downto 0);
+        o_done                              : out std_logic
     );
-    PORT(
-        i_clk           : IN STD_LOGIC;
-        reset           : IN STD_LOGIC;
-        en_de           : IN STD_LOGIC; -- 0 for encrypt, 1 for decrypt
-        v0, v1          : IN STD_LOGIC_VECTOR(N-1 DOWNTO 0);
-        k1, k2, k3, k4  : IN STD_LOGIC_VECTOR(N-1 DOWNTO 0);
-        out_0, out_1    : OUT STD_LOGIC_VECTOR(N-1 DOWNTO 0);
-        done            : OUT STD_LOGIC
-    );
-END xtea_engine;
+end xtea_engine;
 
-ARCHITECTURE behavioral OF xtea_engine IS
-    type FSM IS (
-        s0, s1, s2, s3, s4, s5, s6, s7
-    );
+architecture xtea_engine_arc OF xtea_engine IS
+    component mux_4in is
+        generic(
+            n : integer := 32
+        );
+        port(
+            i_0 : in std_logic_vector(n-1 downto 0);
+            i_1 : in std_logic_vector(n-1 downto 0);
+            i_2 : in std_logic_vector(n-1 downto 0);
+            i_3 : in std_logic_vector(n-1 downto 0);
 
-    SIGNAL currentState, nextState : FSM;
+            sel: in std_logic_vector(1 downto 0);
+            o_data: out std_logic_vector(n-1 downto 0)
+        );
+    end component;
+
+    component mux_2in is
+        generic(
+        n: integer := 32
+        );
+        port(
+            i_0 : in std_logic_vector(n-1 downto 0);
+            i_1 : in std_logic_vector(n-1 downto 0);
+
+            sel: in std_logic;
+            o_data: out std_logic_vector(n-1 downto 0)
+        );
+    end component;
+
+    component register32 is
+        port(
+            rst, clk, enable : in std_logic;
+            input            : in std_logic_vector(31 downto 0);
+            output           : out std_logic_vector(31 downto 0)
+        );
+    end component;
+
+    component xtea_engine_fsm is
+        generic(
+            num_rounds  : integer := 32
+        );
+        port(
+            rst, clk, start, ende               : in std_logic;
+            operation, sel_v0, sel_v1, sel_sum  : out std_logic;
+            en_v0, en_v1, en_sum, done          : out std_logic 
+        );
+    end component;
+
+    constant delta      : std_logic_vector(31 downto 0) := x"9E3779B9";
+    constant num_rounds  : integer := 32;
+    constant mul_first_sum : std_logic_vector(31 downto 0) := x"C6EF3720";
+
+    -- Controller Signals
+    signal operation         : std_logic; -- operation 1 (v0 <= something)
+    signal sel_v0, sel_v1    : std_logic; -- selector input register v0 dan v1 (i_v0 i_v1 or operation final)
+    signal sel_sum           : std_logic;
+    signal en_v0, en_v1      : std_logic; -- enable register v0 dan v1
+    signal en_sum            : std_logic; -- enable sum_reg
+    signal done              : std_logic;
+
+    -- Register and Operation Signals
+    signal v0_mux_out                               : std_logic_vector(31 downto 0);
+    signal v1_mux_out                               : std_logic_vector(31 downto 0);
+    signal v0_out                                   : std_logic_vector(31 downto 0);
+    signal v1_out                                   : std_logic_vector(31 downto 0);
+    signal op_mux_out                               : std_logic_vector(31 downto 0);
+    signal op2_mux_out                              : std_logic_vector(31 downto 0);
+    signal op_temp1                                 : std_logic_vector(31 downto 0);
+    signal op_temp2                                 : std_logic_vector(31 downto 0);
+    signal op_out                                   : std_logic_vector(31 downto 0);
+    signal add_op_out, sub_op_out                   : std_logic_vector(31 downto 0);
+    signal operation_final                          : std_logic_vector(31 downto 0);
+
+    -- Key Signals
+    signal key_sel_out                              : std_logic_vector(31 downto 0);
+    signal key_mux_out                              : std_logic_vector(31 downto 0);
+    signal first_sum                                : std_logic_vector(31 downto 0);
+    signal sum_mux_out                              : std_logic_vector(31 downto 0);
+    signal sum_in, sum_out                          : std_logic_vector(31 downto 0);
+    signal shifted_sum                              : std_logic_vector(31 downto 0);
+    signal add_sum_delta, sub_sum_delta             : std_logic_vector(31 downto 0);
+
+    signal key_sel                                  : std_logic_vector(1 downto 0);
+
+    begin
+
+
+    fsm : xtea_engine_fsm
+        generic map(
+            num_rounds => num_rounds
+        )
+        port map(
+            rst             => i_rst,
+            clk             => i_clk,
+            start           => i_start,
+            ende            => i_ende,
+            operation       => operation,
+            sel_v0          => sel_v0,
+            sel_v1          => sel_v1,
+            sel_sum         => sel_sum,
+            en_v0           => en_v0,
+            en_v1           => en_v1,
+            en_sum          => en_sum,
+            done            => done
+        );
+
+    o_done <= done;
+    out0_reg : register32
+        port map(
+            rst     => i_rst,
+            clk     => i_clk,
+            enable  => done,
+            input   => v0_out,
+            output  => o_out0
+        );
+
+    out1_reg : register32
+        port map(
+            rst     => i_rst,
+            clk     => i_clk,
+            enable  => done,
+            input   => v1_out,
+            output  => o_out1
+        );
+        
+    v0_mux : mux_2in
+        generic map(
+            n => 32
+        )
+        port map(
+            i_0 => operation_final,
+            i_1 => i_v0,
+            sel => sel_v0,
+            o_data => v0_mux_out
+        );
+
+    v1_mux : mux_2in
+        generic map(
+            n => 32
+        )
+        port map(
+            i_0 => operation_final,
+            i_1 => i_v1,
+            sel => sel_v1,
+            o_data => v1_mux_out
+        );
     
-    CONSTANT delta          : STD_LOGIC_VECTOR(N-1 DOWNTO 0) := x"9E3779B9";
-    SIGNAL sum              : STD_LOGIC_VECTOR(N-1 DOWNTO 0) := (others => '0');
-    SIGNAL t_sum        : unsigned(N-1 DOWNTO 0);
+    v0_reg : register32
+        port map(
+            rst     => i_rst,
+            clk     => i_clk,
+            enable  => en_v0,
+            input   => v0_mux_out,
+            output  => v0_out
+        );
 
-    SIGNAL t_v0         : STD_LOGIC_VECTOR(N-1 DOWNTO 0);
-    SIGNAL t1_v0        : unsigned(N-1 DOWNTO 0);
-    SIGNAL t2_v0        : unsigned(N-1 DOWNTO 0);
-    SIGNAL t3_v0        : unsigned(N-1 DOWNTO 0);
+    v1_reg : register32
+        port map(
+            rst     => i_rst,
+            clk     => i_clk,
+            enable  => en_v1,
+            input   => v1_mux_out,
+            output  => v1_out
+        );
 
-    SIGNAL t_v1         : STD_LOGIC_VECTOR(N-1 DOWNTO 0);
-    SIGNAL t1_v1        : unsigned(N-1 DOWNTO 0);
-    SIGNAL t2_v1        : unsigned(N-1 DOWNTO 0);
-    SIGNAL t3_v1        : unsigned(N-1 DOWNTO 0); 
+    op_mux : mux_2in
+        generic map(
+            n => 32
+        )
+        port map(
+            i_0 => v1_out,
+            i_1 => v0_out,
+            sel => operation,
+            o_data => op_mux_out
+        );
 
-    SIGNAL key_sel      : unsigned(N-1 DOWNTO 0);
-    SIGNAL key          : STD_LOGIC_VECTOR(N-1 DOWNTO 0);
+    op_mux2 : mux_2in
+        generic map(
+            n => 32
+        )
+        port map(
+            i_0 => v0_out,
+            i_1 => v1_out,
+            sel => operation,
+            o_data => op2_mux_out
+        );
+    
+    op_temp1 <= std_logic_vector((shift_left(unsigned(op_mux_out), 4) XOR shift_right(unsigned(op_mux_out), 5)) + unsigned(op_mux_out));
 
-    SIGNAL count        : INTEGER;
+    first_sum_mux : mux_2in
+        generic map(
+            n => 32
+        )
+        port map(
+            i_0 => mul_first_sum,
+            i_1 => (others=>'0'),
+            sel => i_ende,
+            o_data => first_sum
+        );
+    
+    sum_mux : mux_2in
+        generic map(
+            n => 32
+        )
+        port map(
+            i_0 => sum_in,
+            i_1 => first_sum,
+            sel => sel_sum,
+            o_data => sum_mux_out
+        );
 
-    BEGIN
-    state_transition: PROCESS(i_clk)
-    BEGIN
-        IF (reset = '1') THEN
-            currentState <= s0;
-        ELSIF rising_edge(i_clk) THEN
-            currentState <= nextState;
-        END IF;
-    END PROCESS;
+    sum_reg : register32
+        port map(
+            rst => i_rst,
+            clk => i_clk,
+            enable => en_sum,
+            input => sum_mux_out,
+            output => sum_out
+        );
+    
+    add_sum_delta <= std_logic_vector(unsigned(sum_out) + unsigned(delta));
+    sub_sum_delta <= std_logic_vector(unsigned(sum_out) - unsigned(delta));
 
-    state: PROCESS(currentState)
-    BEGIN
-        CASE currentState IS
-            WHEN s0 =>
-                t_v0  <= v0;
-                t1_v0 <= unsigned(v0);
-                t2_v0 <= unsigned(v0);
-                t3_v0 <= unsigned(v0);
-                t_v1  <= v1;
-                t1_v1 <= unsigned(v1);
-                t2_v1 <= unsigned(v1);
-                t3_v1 <= unsigned(v1);
-                t_sum <= unsigned(sum);
-                count <= 0;
-                IF (en_de = '1') THEN
-                    nextState <= s1;
-                ELSIF (en_de = '0') THEN
-                    nextState <= s4;
-                END IF;
-            WHEN s1 =>
-                -- start modifying v0
-                t1_v1 <= t1_v1(N-1-4 DOWNTO 0) & "0000"; -- shift left 4-bits
-                t2_v1 <= "0000" & t2_v1(N-1 DOWNTO 5); -- shift right 5-bits
-                t3_v1 <= t1_v1 XOR t2_v1;
-                t3_v1 <= unsigned(t3_v1) + unsigned(t_v1);
-                
-                key_sel <= unsigned(sum AND x"0000_0003");
-                IF (key_sel(1 DOWNTO 0) = "00") THEN
-                        key <= k1;
-                    ELSIF (key_sel(1 DOWNTO 0) = "01") THEN
-                        key <= k2;
-                    ELSIF (key_sel(1 DOWNTO 0) = "10") THEN
-                        key <= k3;
-                    ELSE
-                        key <= k4;
-                END IF;
+    sum_delta_mux : mux_2in
+        generic map(
+            n => 32
+        )
+        port map(
+            i_0 => sub_sum_delta,
+            i_1 => add_sum_delta,
+            sel => i_ende,
+            o_data => sum_in
+        );
 
-                t_sum <= unsigned(sum) + unsigned(key);
-                t_v0 <= STD_LOGIC_VECTOR(unsigned(t_v0) + unsigned(t3_v1 XOR t_sum));
-                -- end modifying v0
+    shifted_sum <= std_logic_vector(shift_right(unsigned(sum_out), 11));
+    
+    key_sel_mux : mux_2in
+        generic map(
+            n => 32
+        )
+        port map(
+            i_0 => sum_out,
+            i_1 => shifted_sum,
+            sel => operation,
+            o_data => key_sel_out
+        );
 
-                nextState <= s2;
-            WHEN s2 =>
-                sum <= STD_LOGIC_VECTOR(unsigned(sum) + unsigned(delta));
+    key_sel <= key_sel_out(1 downto 0) AND "11";
+    
+    key_mux : mux_4in
+        generic map(
+            n=> 32
+        )
+        port map(
+            i_0 => i_key0,
+            i_1 => i_key1,
+            i_2 => i_key2,
+            i_3 => i_key3,
+            sel => key_sel,
+            o_data => key_mux_out
+        );
 
-                nextState <= s3;
-            WHEN s3 =>
-                -- start modifying v1
-                t1_v0 <= t1_v0(N-1-4 DOWNTO 0) & "0000"; -- shift left 4-bits
-                t2_v0 <= "0000" & t2_v0(N-1 DOWNTO 5); -- shift right 5-bits
-                t3_v0 <= t1_v0 XOR t2_v0;
-                t3_v0 <= unsigned(t3_v0) + unsigned(t_v0);
+    op_temp2 <= std_logic_vector(unsigned(sum_out) + unsigned(key_mux_out));
+    op_out <= op_temp1 XOR op_temp2;
 
-                t_sum <= unsigned(x"B" & sum(N-1 DOWNTO 11)); -- shift right 11-bits
-                key_sel <= unsigned(t_sum AND x"0000_0003");
-                IF (key_sel(1 DOWNTO 0) = "00") THEN
-                    key <= k1;
-                ELSIF (key_sel(1 DOWNTO 0) = "01") THEN
-                    key <= k2;
-                ELSIF (key_sel(1 DOWNTO 0) = "10") THEN
-                    key <= k3;
-                ELSE
-                    key <= k4;
-                END IF;
+    add_op_out <= std_logic_vector(unsigned(op2_mux_out) + unsigned(op_out));
+    sub_op_out <= std_logic_vector(unsigned(op2_mux_out) - unsigned(op_out));
 
-                t_sum <= unsigned(sum) + unsigned(key);
-                t_v1 <= STD_LOGIC_VECTOR(unsigned(t_v1) + unsigned(t3_v1 XOR t_sum));
-                -- end modifying v1
-                IF (count < num_rounds-1) THEN
-                    count <= count + 1;
-                    nextState <= s1;
-                ELSE
-                    nextState <= s7;
-                END IF;
-            WHEN s4 =>
-                -- start modifying v1
-                t1_v0 <= t1_v0(N-1-4 DOWNTO 0) & "0000"; -- shift left 4-bits
-                t2_v0 <= "0000" & t2_v0(N-1 DOWNTO 5); -- shift right 5-bits
-                t3_v0 <= t1_v0 XOR t2_v0;
-                t3_v0 <= unsigned(t3_v0) + unsigned(t_v0);
+    to_reg_mux : mux_2in
+        generic map(
+            n => 32
+        )
+        port map(
+            i_0 => sub_op_out,
+            i_1 => add_op_out,
+            sel => i_ende,
+            o_data => operation_final
+        );
 
-                t_sum <= unsigned(x"B" & sum(N-1 DOWNTO 11)); -- shift right 11-bits
-                key_sel <= unsigned(t_sum AND x"0000_0003");
-                IF (key_sel(1 DOWNTO 0) = "00") THEN
-                    key <= k1;
-                ELSIF (key_sel(1 DOWNTO 0) = "01") THEN
-                    key <= k2;
-                ELSIF (key_sel(1 DOWNTO 0) = "10") THEN
-                    key <= k3;
-                ELSE
-                    key <= k4;
-                END IF;
-
-                t_sum <= unsigned(sum) + unsigned(key);
-                t_v1 <= STD_LOGIC_VECTOR(unsigned(t_v1) - unsigned(t3_v1 XOR t_sum));
-                -- end modifying v1
-                nextState <= s5;
-            WHEN s5 =>
-                sum <= STD_LOGIC_VECTOR(unsigned(sum) - unsigned(delta));
-
-                nextState <= s6;
-            WHEN s6 =>
-                -- start modifying v0
-                t1_v1 <= t1_v1(N-1-4 DOWNTO 0) & "0000"; -- shift left 4-bits
-                t2_v1 <= "0000" & t2_v1(N-1 DOWNTO 5); -- shift right 5-bits
-                t3_v1 <= t1_v1 XOR t2_v1;
-                t3_v1 <= unsigned(t3_v1) + unsigned(t_v1);
-                
-                key_sel <= unsigned(sum AND x"0000_0003");
-                IF (key_sel(1 DOWNTO 0) = "00") THEN
-                        key <= k1;
-                    ELSIF (key_sel(1 DOWNTO 0) = "01") THEN
-                        key <= k2;
-                    ELSIF (key_sel(1 DOWNTO 0) = "10") THEN
-                        key <= k3;
-                    ELSE
-                        key <= k4;
-                END IF;
-
-                t_sum <= unsigned(sum) + unsigned(key);
-                t_v0 <= STD_LOGIC_VECTOR(unsigned(t_v0) - unsigned(t3_v1 XOR t_sum));
-                -- end modifying v0
-                IF (count < num_rounds-1) THEN
-                    count <= count + 1;
-                    nextState <= s4;
-                ELSE
-                    nextState <= s7;
-                END IF;
-            WHEN s7 =>
-                out_0 <= t_v0;
-                out_1 <= t_v1;
-                done <= '1';
-                nextState <= s7;
-        END CASE;
-    END PROCESS;
-END ARCHITECTURE;
-            
+end xtea_engine_arc;

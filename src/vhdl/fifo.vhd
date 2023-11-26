@@ -38,9 +38,9 @@ architecture fifo_arc of fifo is
 
     process(index_a, index_b)
     begin
-        if rising_edge(index_a) then
+        if (index_a'EVENT) then
             index <= index + 1;
-        elsif rising_edge(index_b) then
+        elsif (index_b'EVENT) then
             index <= index - 1;
         end if;
     end process;

@@ -53,6 +53,7 @@ class App(tk.Frame):
         self.ser = Ser()
 
         self.root.geometry("500x500")
+        self.root.title("Serial File Transfer")
         self.root.configure(bg="white")
 
         self.root.columnconfigure(0, weight=1)

@@ -12,8 +12,9 @@ add wave -position end  sim:/xtea_engine/o_done
 add wave -position end  sim:/xtea_engine/o_out0
 add wave -position end  sim:/xtea_engine/o_out1
 
+
 force -freeze sim:/xtea_engine/i_rst 0 0
-force -freeze sim:/xtea_engine/i_start 1 0
+force -freeze sim:/xtea_engine/i_start 0 0
 force -freeze sim:/xtea_engine/i_clk 0 0, 1 {2 ps} -r 4
 force -freeze sim:/xtea_engine/i_ende 1 0
 force -freeze sim:/xtea_engine/i_v0 01101000011001010110110001101100 0
@@ -23,8 +24,10 @@ force -freeze sim:/xtea_engine/i_key1 00110101001101100011011100111000 0
 force -freeze sim:/xtea_engine/i_key2 00110001001100100011001100110100 0
 force -freeze sim:/xtea_engine/i_key3 00110101001101100011011100111000 0
 run 100ps
+force -freeze sim:/xtea_engine/i_start 1 0
+run 100ps
 force -freeze sim:/xtea_engine/i_start 0 0
-run 1ns
+run 2ns
 
 force -freeze sim:/xtea_engine/i_start 1 0
 force -freeze sim:/xtea_engine/i_ende 0 0
@@ -36,4 +39,4 @@ force -freeze sim:/xtea_engine/i_key2 00110001001100100011001100110100 0
 force -freeze sim:/xtea_engine/i_key3 00110101001101100011011100111000 0
 run 100ps
 force -freeze sim:/xtea_engine/i_start 0 0
-run 1ns
+run 2ns

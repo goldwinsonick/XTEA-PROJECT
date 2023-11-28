@@ -93,7 +93,7 @@ R22
 R14
 R15
 Emux_4in
-Z23 w1700551103
+Z23 w1700701826
 R5
 R6
 R0
@@ -105,9 +105,9 @@ V?Un:hJajD[cfh;TfD6A`T0
 !s100 C@o>oA3Fel8KAX`::_XjE2
 R9
 32
-Z26 !s110 1700663941
+Z26 !s110 1701128830
 !i10b 1
-Z27 !s108 1700663941.000000
+Z27 !s108 1701128830.000000
 Z28 !s90 -reportprogress|300|-work|work|C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/mux_4in.vhd|
 Z29 !s107 C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/mux_4in.vhd|
 !i113 1
@@ -174,25 +174,66 @@ R36
 !i113 1
 R14
 R15
-Extea_engine
-Z37 w1700701826
+Erx_xtea
+Z37 w1700683000
 R2
 R5
 R6
 R0
-Z38 8C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine.vhd
-Z39 FC:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine.vhd
+Z38 8C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/RX_XTEA.vhd
+Z39 FC:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/RX_XTEA.vhd
+l0
+L5
+VBQ^kgJ_RLze:9_>0jWVK51
+!s100 5749Lea08@3gj:LVdQl5A2
+R9
+32
+Z40 !s110 1700998107
+!i10b 1
+Z41 !s108 1700998107.000000
+Z42 !s90 -reportprogress|300|-work|work|C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/RX_XTEA.vhd|
+Z43 !s107 C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/RX_XTEA.vhd|
+!i113 1
+R14
+R15
+Abehav
+R2
+R5
+R6
+DEx4 work 7 rx_xtea 0 22 BQ^kgJ_RLze:9_>0jWVK51
+l42
+L17
+V:V6DINcDAIA98m4GIZaec1
+!s100 k7<OSl[o@A9AoD6PM59oz3
+R9
+32
+R40
+!i10b 1
+R41
+R42
+R43
+!i113 1
+R14
+R15
+Extea_engine
+R23
+R2
+R5
+R6
+R0
+Z44 8C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine.vhd
+Z45 FC:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine.vhd
 l0
 L5
 Vln:`8]>;GaDS66zHb<Rih3
 !s100 WMB_5OgSZgJXA;=Y=P0kd2
 R9
 32
-Z40 !s110 1700706681
+Z46 !s110 1701129374
 !i10b 1
-Z41 !s108 1700706681.000000
-Z42 !s90 -reportprogress|300|-work|work|C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine.vhd|
-Z43 !s107 C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine.vhd|
+Z47 !s108 1701129374.000000
+Z48 !s90 -reportprogress|300|-work|work|C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine.vhd|
+Z49 !s107 C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine.vhd|
 !i113 1
 R14
 R15
@@ -207,33 +248,33 @@ VcQIAzff?;HIFCI?n><;mj3
 !s100 ;4joSPUV`Q=Gc429AC0zC2
 R9
 32
-R40
+R46
 !i10b 1
-R41
-R42
-R43
+R47
+R48
+R49
 !i113 1
 R14
 R15
 Extea_engine_fsm
-Z44 w1700706600
+Z50 w1701129361
 R2
 R5
 R6
 R0
-Z45 8C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine_fsm.vhd
-Z46 FC:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine_fsm.vhd
+Z51 8C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine_fsm.vhd
+Z52 FC:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine_fsm.vhd
 l0
 L5
 V4BImTF:_bbTfllP7eW?0Q2
 !s100 NRII4JZDQH@jEE7kZ2fbf1
 R9
 32
-R40
+R46
 !i10b 1
-R41
-Z47 !s90 -reportprogress|300|-work|work|C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine_fsm.vhd|
-Z48 !s107 C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine_fsm.vhd|
+R47
+Z53 !s90 -reportprogress|300|-work|work|C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine_fsm.vhd|
+Z54 !s107 C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine_fsm.vhd|
 !i113 1
 R14
 R15
@@ -241,18 +282,18 @@ Afsm
 R2
 R5
 R6
-Z49 DEx4 work 15 xtea_engine_fsm 0 22 4BImTF:_bbTfllP7eW?0Q2
+Z55 DEx4 work 15 xtea_engine_fsm 0 22 4BImTF:_bbTfllP7eW?0Q2
 l25
 L16
-Vc:PR]@3^7B?j1SE1`3AB21
-!s100 81W58K[4lZkXWVR^:JQbT0
+Vm>a0dGUVhF[76;33kCfVY3
+!s100 OIF[N2>]2PWj6h:AAl`k02
 R9
 32
-R40
+R46
 !i10b 1
-R41
 R47
-R48
+R53
+R54
 !i113 1
 R14
 R15

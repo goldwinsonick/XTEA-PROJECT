@@ -43,7 +43,7 @@ architecture fsm of xtea_engine_fsm is
 
             when s_waiting =>
                 done        <= '0';
-                if (start = '1') then
+                if rising_edge(start) then
                     nextState <= s_load;
                 end if;
 
@@ -73,7 +73,7 @@ architecture fsm of xtea_engine_fsm is
                 operation   <= '0';
                 done        <= '0';
                 count       <= count + 1;
-                if (count < num_rounds-1) then
+                if (count < num_rounds) then
                     if (ende = '1') then
                         nextState <= s_op_0;
                     else

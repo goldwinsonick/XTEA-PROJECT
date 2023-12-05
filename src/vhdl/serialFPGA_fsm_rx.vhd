@@ -22,7 +22,6 @@ architecture behavioral of serialFPGA_fsm_rx is
     signal cnt : integer := 0;
     -- signal test : std_logic;
     signal msg_mode : std_logic;
-    signal reg_en   : std_logic;
 
 begin
     process(rst, clk)
@@ -37,7 +36,7 @@ begin
 
     process(i_recv, currentState)
     begin
-        reg_en <='0';
+        o_reg_en <='0';
         case currentState is
             when init =>
                 nextState <= s_waiting;
@@ -67,7 +66,7 @@ begin
                         nextState <= s_waiting;
                     else
                         o_reg_data <= i_recvByte;
-                        reg_en <= '1';
+                        o_reg_en <= '1';
                         if(msg_mode = '1')then
                             cnt <= cnt+1;
                             if(cnt = 7)then
@@ -80,9 +79,8 @@ begin
                 end if;
             when s_reading2 =>
                 o_proceed     <= '0';
-                reg_en    <= '0';
+                o_reg_en    <= '0';
                 nextState <= s_reading1;
         end case;
     end process;
-    o_reg_en <= reg_en;
 end behavioral;

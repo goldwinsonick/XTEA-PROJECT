@@ -1,0 +1,221 @@
+------------------------------------------------------------
+Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow 1200mV 85C Model Setup 'i_clk'
+Slack : -12.307
+TNS   : -2308.402
+
+Type  : Slow 1200mV 85C Model Setup 'serialFPGA:serialFPGA1|my_uart_top:uart_top|my_uart_rx:receiver|rx_data_r[0]'
+Slack : -6.950
+TNS   : -174.667
+
+Type  : Slow 1200mV 85C Model Setup 'serialFPGA:serialFPGA1|my_uart_top:uart_top|my_uart_tx:transmitter|ready'
+Slack : -5.880
+TNS   : -188.523
+
+Type  : Slow 1200mV 85C Model Setup 'xtea_engine:xtea_engine1|xtea_engine_fsm:fsm|currentState.s_load'
+Slack : -5.645
+TNS   : -142.688
+
+Type  : Slow 1200mV 85C Model Setup 'serialFPGA:serialFPGA1|serialFPGA_fsm_rx:serialFPGA_fsm_rx1|o_proceed'
+Slack : -5.348
+TNS   : -19.184
+
+Type  : Slow 1200mV 85C Model Setup 'serialFPGA:serialFPGA1|serialFPGA_fsm_rx:serialFPGA_fsm_rx1|currentState.init'
+Slack : -2.248
+TNS   : -10.787
+
+Type  : Slow 1200mV 85C Model Hold 'serialFPGA:serialFPGA1|my_uart_top:uart_top|my_uart_rx:receiver|rx_data_r[0]'
+Slack : 0.155
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'xtea_engine:xtea_engine1|xtea_engine_fsm:fsm|currentState.s_load'
+Slack : 0.197
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'i_clk'
+Slack : 0.452
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'serialFPGA:serialFPGA1|serialFPGA_fsm_rx:serialFPGA_fsm_rx1|o_proceed'
+Slack : 0.572
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'serialFPGA:serialFPGA1|my_uart_top:uart_top|my_uart_tx:transmitter|ready'
+Slack : 0.659
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'serialFPGA:serialFPGA1|serialFPGA_fsm_rx:serialFPGA_fsm_rx1|currentState.init'
+Slack : 0.706
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'i_clk'
+Slack : -3.000
+TNS   : -658.767
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'serialFPGA:serialFPGA1|my_uart_top:uart_top|my_uart_rx:receiver|rx_data_r[0]'
+Slack : -0.303
+TNS   : -3.058
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'serialFPGA:serialFPGA1|my_uart_top:uart_top|my_uart_tx:transmitter|ready'
+Slack : 0.180
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'serialFPGA:serialFPGA1|serialFPGA_fsm_rx:serialFPGA_fsm_rx1|currentState.init'
+Slack : 0.363
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'serialFPGA:serialFPGA1|serialFPGA_fsm_rx:serialFPGA_fsm_rx1|o_proceed'
+Slack : 0.372
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'xtea_engine:xtea_engine1|xtea_engine_fsm:fsm|currentState.s_load'
+Slack : 0.419
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Setup 'i_clk'
+Slack : -11.278
+TNS   : -2129.490
+
+Type  : Slow 1200mV 0C Model Setup 'serialFPGA:serialFPGA1|my_uart_top:uart_top|my_uart_rx:receiver|rx_data_r[0]'
+Slack : -6.799
+TNS   : -163.283
+
+Type  : Slow 1200mV 0C Model Setup 'serialFPGA:serialFPGA1|my_uart_top:uart_top|my_uart_tx:transmitter|ready'
+Slack : -5.345
+TNS   : -174.609
+
+Type  : Slow 1200mV 0C Model Setup 'xtea_engine:xtea_engine1|xtea_engine_fsm:fsm|currentState.s_load'
+Slack : -5.093
+TNS   : -128.705
+
+Type  : Slow 1200mV 0C Model Setup 'serialFPGA:serialFPGA1|serialFPGA_fsm_rx:serialFPGA_fsm_rx1|o_proceed'
+Slack : -4.963
+TNS   : -18.329
+
+Type  : Slow 1200mV 0C Model Setup 'serialFPGA:serialFPGA1|serialFPGA_fsm_rx:serialFPGA_fsm_rx1|currentState.init'
+Slack : -2.403
+TNS   : -10.927
+
+Type  : Slow 1200mV 0C Model Hold 'serialFPGA:serialFPGA1|my_uart_top:uart_top|my_uart_rx:receiver|rx_data_r[0]'
+Slack : 0.054
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'xtea_engine:xtea_engine1|xtea_engine_fsm:fsm|currentState.s_load'
+Slack : 0.301
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'i_clk'
+Slack : 0.401
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'serialFPGA:serialFPGA1|serialFPGA_fsm_rx:serialFPGA_fsm_rx1|o_proceed'
+Slack : 0.487
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'serialFPGA:serialFPGA1|my_uart_top:uart_top|my_uart_tx:transmitter|ready'
+Slack : 0.586
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'serialFPGA:serialFPGA1|serialFPGA_fsm_rx:serialFPGA_fsm_rx1|currentState.init'
+Slack : 0.763
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'i_clk'
+Slack : -3.000
+TNS   : -658.767
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'serialFPGA:serialFPGA1|my_uart_top:uart_top|my_uart_rx:receiver|rx_data_r[0]'
+Slack : -0.402
+TNS   : -2.575
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'serialFPGA:serialFPGA1|my_uart_top:uart_top|my_uart_tx:transmitter|ready'
+Slack : -0.015
+TNS   : -0.015
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'serialFPGA:serialFPGA1|serialFPGA_fsm_rx:serialFPGA_fsm_rx1|currentState.init'
+Slack : 0.162
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'serialFPGA:serialFPGA1|serialFPGA_fsm_rx:serialFPGA_fsm_rx1|o_proceed'
+Slack : 0.178
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'xtea_engine:xtea_engine1|xtea_engine_fsm:fsm|currentState.s_load'
+Slack : 0.374
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'i_clk'
+Slack : -5.295
+TNS   : -863.039
+
+Type  : Fast 1200mV 0C Model Setup 'serialFPGA:serialFPGA1|my_uart_top:uart_top|my_uart_rx:receiver|rx_data_r[0]'
+Slack : -2.864
+TNS   : -53.056
+
+Type  : Fast 1200mV 0C Model Setup 'serialFPGA:serialFPGA1|my_uart_top:uart_top|my_uart_tx:transmitter|ready'
+Slack : -1.978
+TNS   : -55.135
+
+Type  : Fast 1200mV 0C Model Setup 'xtea_engine:xtea_engine1|xtea_engine_fsm:fsm|currentState.s_load'
+Slack : -1.923
+TNS   : -44.178
+
+Type  : Fast 1200mV 0C Model Setup 'serialFPGA:serialFPGA1|serialFPGA_fsm_rx:serialFPGA_fsm_rx1|o_proceed'
+Slack : -1.670
+TNS   : -5.195
+
+Type  : Fast 1200mV 0C Model Setup 'serialFPGA:serialFPGA1|serialFPGA_fsm_rx:serialFPGA_fsm_rx1|currentState.init'
+Slack : -0.572
+TNS   : -2.322
+
+Type  : Fast 1200mV 0C Model Hold 'serialFPGA:serialFPGA1|my_uart_top:uart_top|my_uart_rx:receiver|rx_data_r[0]'
+Slack : -0.113
+TNS   : -0.113
+
+Type  : Fast 1200mV 0C Model Hold 'i_clk'
+Slack : 0.148
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Hold 'xtea_engine:xtea_engine1|xtea_engine_fsm:fsm|currentState.s_load'
+Slack : 0.235
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Hold 'serialFPGA:serialFPGA1|my_uart_top:uart_top|my_uart_tx:transmitter|ready'
+Slack : 0.250
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Hold 'serialFPGA:serialFPGA1|serialFPGA_fsm_rx:serialFPGA_fsm_rx1|o_proceed'
+Slack : 0.259
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Hold 'serialFPGA:serialFPGA1|serialFPGA_fsm_rx:serialFPGA_fsm_rx1|currentState.init'
+Slack : 0.377
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'i_clk'
+Slack : -3.000
+TNS   : -472.284
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'serialFPGA:serialFPGA1|my_uart_top:uart_top|my_uart_rx:receiver|rx_data_r[0]'
+Slack : 0.049
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'serialFPGA:serialFPGA1|serialFPGA_fsm_rx:serialFPGA_fsm_rx1|currentState.init'
+Slack : 0.264
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'serialFPGA:serialFPGA1|serialFPGA_fsm_rx:serialFPGA_fsm_rx1|o_proceed'
+Slack : 0.283
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'xtea_engine:xtea_engine1|xtea_engine_fsm:fsm|currentState.s_load'
+Slack : 0.324
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'serialFPGA:serialFPGA1|my_uart_top:uart_top|my_uart_tx:transmitter|ready'
+Slack : 0.384
+TNS   : 0.000
+
+------------------------------------------------------------

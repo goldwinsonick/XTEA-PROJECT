@@ -1,0 +1,11 @@
+force -freeze sim:/serialfpga_fsm_tx/clk 1 0, 0 {5 ps} -r 10
+force -freeze sim:/serialfpga_fsm_tx/rst 0 0
+force -freeze sim:/serialfpga_fsm_tx/i_v0 11001010110010101100101011001010 0
+force -freeze sim:/serialfpga_fsm_tx/i_v1 11110000111100001111000011110000 0
+force -freeze sim:/serialfpga_fsm_tx/i_tx_ready 0 0
+force -freeze sim:/serialfpga_fsm_tx/i_done 0 0
+run 50ps
+force -freeze sim:/serialfpga_fsm_tx/i_done 1 0
+run 50ps
+force -freeze sim:/serialfpga_fsm_tx/i_tx_ready 1 0
+run 500ps

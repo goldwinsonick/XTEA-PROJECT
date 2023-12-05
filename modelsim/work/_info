@@ -215,25 +215,66 @@ R43
 !i113 1
 R14
 R15
+Eshift_register
+Z44 w1701559950
+R2
+R5
+R6
+R0
+Z45 8C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/shift_register.vhd
+Z46 FC:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/shift_register.vhd
+l0
+L5
+VA6MF[PcBcF9685Kf1WPW80
+!s100 X:k6DIcaHRBh4BC[ezObG0
+R9
+32
+Z47 !s110 1701559959
+!i10b 1
+Z48 !s108 1701559959.000000
+Z49 !s90 -reportprogress|300|-work|work|C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/shift_register.vhd|
+Z50 !s107 C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/shift_register.vhd|
+!i113 1
+R14
+R15
+Abehavioral
+R2
+R5
+R6
+Z51 DEx4 work 14 shift_register 0 22 A6MF[PcBcF9685Kf1WPW80
+l19
+L17
+VQNmFgS2^<WIifgEBEG0I33
+!s100 <6F8D;BgeoX`L<J9zjD5k1
+R9
+32
+R47
+!i10b 1
+R48
+R49
+R50
+!i113 1
+R14
+R15
 Extea_engine
 R23
 R2
 R5
 R6
 R0
-Z44 8C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine.vhd
-Z45 FC:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine.vhd
+Z52 8C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine.vhd
+Z53 FC:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine.vhd
 l0
 L5
 Vln:`8]>;GaDS66zHb<Rih3
 !s100 WMB_5OgSZgJXA;=Y=P0kd2
 R9
 32
-Z46 !s110 1701129374
+Z54 !s110 1701129374
 !i10b 1
-Z47 !s108 1701129374.000000
-Z48 !s90 -reportprogress|300|-work|work|C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine.vhd|
-Z49 !s107 C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine.vhd|
+Z55 !s108 1701129374.000000
+Z56 !s90 -reportprogress|300|-work|work|C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine.vhd|
+Z57 !s107 C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine.vhd|
 !i113 1
 R14
 R15
@@ -248,33 +289,33 @@ VcQIAzff?;HIFCI?n><;mj3
 !s100 ;4joSPUV`Q=Gc429AC0zC2
 R9
 32
-R46
+R54
 !i10b 1
-R47
-R48
-R49
+R55
+R56
+R57
 !i113 1
 R14
 R15
 Extea_engine_fsm
-Z50 w1701129361
+Z58 w1701129361
 R2
 R5
 R6
 R0
-Z51 8C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine_fsm.vhd
-Z52 FC:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine_fsm.vhd
+Z59 8C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine_fsm.vhd
+Z60 FC:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine_fsm.vhd
 l0
 L5
 V4BImTF:_bbTfllP7eW?0Q2
 !s100 NRII4JZDQH@jEE7kZ2fbf1
 R9
 32
-R46
+R54
 !i10b 1
-R47
-Z53 !s90 -reportprogress|300|-work|work|C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine_fsm.vhd|
-Z54 !s107 C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine_fsm.vhd|
+R55
+Z61 !s90 -reportprogress|300|-work|work|C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine_fsm.vhd|
+Z62 !s107 C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/src/vhdl/xtea_engine_fsm.vhd|
 !i113 1
 R14
 R15
@@ -282,18 +323,18 @@ Afsm
 R2
 R5
 R6
-Z55 DEx4 work 15 xtea_engine_fsm 0 22 4BImTF:_bbTfllP7eW?0Q2
+DEx4 work 15 xtea_engine_fsm 0 22 4BImTF:_bbTfllP7eW?0Q2
 l25
 L16
 Vm>a0dGUVhF[76;33kCfVY3
 !s100 OIF[N2>]2PWj6h:AAl`k02
 R9
 32
-R46
-!i10b 1
-R47
-R53
 R54
+!i10b 1
+R55
+R61
+R62
 !i113 1
 R14
 R15

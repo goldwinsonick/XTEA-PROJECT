@@ -1,5 +1,5 @@
 
-State Machine - |top_level|xtea_engine:xtea_engine1|xtea_engine_fsm:fsm|currentState
+State Machine - |xtea_engine|xtea_engine_fsm:fsm|currentState
 Name currentState.s_done currentState.s_op_done currentState.s_sum currentState.s_op_1 currentState.s_op_0 currentState.s_load currentState.s_waiting currentState.init 
 currentState.init 0 0 0 0 0 0 0 0 
 currentState.s_waiting 0 0 0 0 0 0 1 1 
@@ -9,18 +9,3 @@ currentState.s_op_1 0 0 0 1 0 0 0 1
 currentState.s_sum 0 0 1 0 0 0 0 1 
 currentState.s_op_done 0 1 0 0 0 0 0 1 
 currentState.s_done 1 0 0 0 0 0 0 1 
-
-State Machine - |top_level|serialFPGA:serialFPGA1|serialFPGA_fsm_tx:serialFPGA_fsm_tx1|currentState
-Name currentState.s_read_2 currentState.s_read_1 currentState.s_waiting currentState.init 
-currentState.init 0 0 0 0 
-currentState.s_waiting 0 0 1 1 
-currentState.s_read_1 0 1 0 1 
-currentState.s_read_2 1 0 0 1 
-
-State Machine - |top_level|serialFPGA:serialFPGA1|serialFPGA_fsm_rx:serialFPGA_fsm_rx1|currentState
-Name currentState.s_reading2 currentState.s_reading1 currentState.s_command currentState.s_waiting currentState.init 
-currentState.init 0 0 0 0 0 
-currentState.s_waiting 0 0 0 1 1 
-currentState.s_command 0 0 1 0 1 
-currentState.s_reading1 0 1 0 0 1 
-currentState.s_reading2 1 0 0 0 1 

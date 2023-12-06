@@ -18,13 +18,13 @@ architecture behavioral of serialFPGA_fsm_tx is
     type states is (
         init, s_waiting, s_read_1, s_read_2
     );
-    signal nextState, currentState : states;
-    signal cnt      : integer := 0;
-    signal vidx     : std_logic;
+    signal nextState, currentState  : states;
+
+    signal cnt              : integer := 0; -- v0 and v1 index
+    signal vidx             : std_logic;    -- v0 or v1
 begin
     process(rst, clk)
     begin
-        -- test <= '0';
         if (rst = '1') then
             currentState <= init;
         elsif rising_edge(clk) then
@@ -32,13 +32,13 @@ begin
         end if;
     end process;
 
-    process(i_done, i_tx_ready, currentState)
+    process(currentState)
     begin
         case currentState is
             when init =>
                 nextState <= s_waiting;
             when s_waiting =>
-                if rising_edge(i_done) then
+                if i_done = '1' then
                     vidx    <= '0';
                     cnt     <= 0;
                     nextState <= s_read_1;
@@ -50,7 +50,7 @@ begin
                     else
                         o_sendByte  <= i_v1( 8*(cnt+1)-1 downto 8*cnt);
                     end if;
-                    o_send      <= '0';
+                    o_send      <= '1';
 
                     cnt <= cnt + 1;
                     if(cnt = 3)then
@@ -66,7 +66,7 @@ begin
                     end if;
                 end if;
             when s_read_2 =>
-                o_send  <= '1';
+                o_send  <= '0';
                 nextState <= s_read_1;
         end case;
     end process;

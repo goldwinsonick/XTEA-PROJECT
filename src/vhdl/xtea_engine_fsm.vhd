@@ -21,6 +21,7 @@ architecture fsm of xtea_engine_fsm is
     signal test : integer := 10;
 
     signal count : integer := 10;
+    signal prevStart : std_logic;
 
     begin
 
@@ -42,8 +43,9 @@ architecture fsm of xtea_engine_fsm is
                 nextState <= s_waiting;
 
             when s_waiting =>
-                done        <= '0';
-                if start = '1' then
+                prevStart <= start;
+                if (prevStart='0' and start='1') then
+                    done        <= '0';
                     nextState <= s_load;
                 end if;
 

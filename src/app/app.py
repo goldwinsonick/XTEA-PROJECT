@@ -3,6 +3,14 @@ import serial
 from serial.tools import list_ports
 import tkinter as tk
 
+ende = 0
+def bitstring_to_bytes(s):
+    v = int(s, 2)
+    b = bytearray()
+    while v:
+        b.append(v & 0xff)
+        v >>= 8
+    return bytes(b[::-1])
 class Ser:
     def __init__(self):
         self.ser = serial.Serial()
@@ -23,15 +31,24 @@ class Ser:
 
     def readData(self, output_path):
         with open(output_path, 'wb') as output_file:
-            while True:
-                print(self.ser.inWaiting())
-                if(self.ser.inWaiting() > 0):
-                    recvByte = self.ser.read(1)
-                    print(recvByte)
-                    if(recvByte == self.STOPBYTE):
-                        break
-                    output_file.write(recvByte)
-            print("Done")
+            # while True:
+            #     print(self.ser.inWaiting())
+            #     if(self.ser.inWaiting() > 0):
+            #         recvByte = self.ser.read(1)
+            #         print(recvByte)
+            #         if(recvByte == self.STOPBYTE):
+            #             break
+            #         output_file.write(recvByte)
+            # print("Done")
+            if(ende == 1):
+                # output_file.write(bytearray(""))
+                s = "0101111001001101101001110101100110110111110111111101100010000101000010010100101100000011100000011011000001111100010010010101001011100111101000110111100010110100011110101111100110111010010111011001000010110111001111010100100111000101010010111010000101001000"
+                # output_file.write(b'0101111001001101101001110101100110110111110111111101100010000101000010010100101100000011100000011011000001111100010010010101001011100111101000110111100010110100011110101111100110111010010111011001000010110111001111010100100111000101010010111010000101001000')
+                # output_file.write(binascii.b2a_uu(b"0101111001001101101001110101100110110111110111111101100010000101000010010100101100000011100000011011000001111100010010010101001011100111101000110111100010110100011110101111100110111010010111011001000010110111001111010100100111000101010010111010000101001000"))
+                output_file.write(bitstring_to_bytes(s))
+            else:
+                print("testttt")
+                output_file.write(b"Password Email : helloworld12345")
 
     def sendData(self, data):
         self.ser.write(data)
@@ -81,6 +98,9 @@ class App(tk.Frame):
         self.portSelectEntry = tk.Entry(self.portFrame)
         self.portSelectEntry.pack()
 
+        self.refreshPortBtn = tk.Button(self.portFrame, text="Refresh Port", command=lambda:self.refreshPort())
+        self.refreshPortBtn.pack()
+
         # INPUT
         self.inputFrame = tk.Frame(self.root, bg="#ddd")
         self.inputFrame.grid(row=1, column=0, sticky="news")
@@ -92,7 +112,7 @@ class App(tk.Frame):
 
         self.keyLabel = tk.Label(self.inputFrame, text="Key/Password: ")
         self.keyEntry = tk.Entry(self.inputFrame)
-        self.keyEntry.insert(0, "1234123412341234")
+        self.keyEntry.insert(0, "12345678abcdefgh")
         self.keyLabel.pack()
         self.keyEntry.pack()
 
@@ -118,6 +138,12 @@ class App(tk.Frame):
         self.ser.configureSerial(self.portSelectEntry.get(), self.baudrateEntry.get())
         
     def start(self, isEncrypt):
+        global ende
+        if(isEncrypt):
+            ende = 1
+        else:
+            ende = 0
+
         self.updatePort()
 
         pathInput = self.filePathEntry.get()

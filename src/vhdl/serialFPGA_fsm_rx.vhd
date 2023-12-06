@@ -20,13 +20,13 @@ architecture behavioral of serialFPGA_fsm_rx is
     );
     signal nextState, currentState : states;
     signal cnt : integer := 0;
-    -- signal test : std_logic;
     signal msg_mode : std_logic;
+
+    signal prev_i_recv : std_logic;
 
 begin
     process(rst, clk)
     begin
-        -- test <= '0';
         if (rst = '1') then
             currentState <= init;
         elsif rising_edge(clk) then
@@ -43,25 +43,36 @@ begin
             when s_waiting =>
                 msg_mode <= '1';
                 cnt <= 0;
-                if(falling_edge(i_recv))then
+                if(i_recv = '1')then
+                    prev_i_recv <= i_recv;
+                end if;
+                if(prev_i_recv = '1' and i_recv = '0')then
                     if(i_recvByte = "00000001")then
                         nextState <= s_command;
                     end if;
                 end if;
             when s_command =>
-                if(falling_edge(i_recv))then
+                if(i_recv = '1')then
+                    prev_i_recv <= i_recv;
+                end if;
+                if(prev_i_recv = '1' and i_recv = '0')then
                     if(i_recvByte = "00000001")then -- msg
-                        msg_mode <= '1';
                         o_reg_sel <= "01";
+                        msg_mode <= '1';
                     elsif(i_recvByte = "00000010")then -- key
                         o_reg_sel <= "10";
                     elsif(i_recvByte = "00000011")then -- ende
                         o_reg_sel <= "11";
                     end if;
                     nextState <= s_reading1;
+                else
+                    nextState <= s_command;
                 end if;
             when s_reading1 =>
-                if(falling_edge(i_recv))then
+                if(i_recv = '1')then
+                    prev_i_recv <= i_recv;
+                end if;
+                if(prev_i_recv = '1' and i_recv = '0')then
                     if(i_recvByte = "00000011")then
                         nextState <= s_waiting;
                     else

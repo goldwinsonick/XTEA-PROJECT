@@ -65,19 +65,20 @@ architecture serialFPGA_arc of serialFPGA is
         );
     end component;
 
-    -- signal send         : std_logic;
-    -- signal send_data    : std_logic_vector(7 downto 0);
     signal receive      : std_logic;
     signal receive_data : std_logic_vector(7 downto 0);
 
     signal send         : std_logic;
     signal send_data    : std_logic_vector(7 downto 0);
     signal tx_ready     : std_logic;
+
+    signal not_rst      : std_logic;
 begin
+    not_rst <= not(i_rst);
     uart_top : my_uart_top
         port map(
             clk             => i_clk,
-            rst_n           => i_rst,
+            rst_n           => not_rst, -- active low
             send            => send,
             send_data       => send_data,
             receive         => receive,

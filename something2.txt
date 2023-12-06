@@ -1,0 +1,346 @@
+force -freeze sim:/top_level/i_clk 1 0, 0 {1 ps} -r 2
+force -freeze sim:/top_level/i_rst 1 0
+run 10ps
+force -freeze sim:/top_level/i_rst 0 0
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000001 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000010 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00110001 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000011 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000001 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000010 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00110010 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000011 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000001 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000010 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00110011 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000011 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000001 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000010 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00110100 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000011 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000001 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000010 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00110101 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000011 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000001 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000010 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00110110 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000011 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000001 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000010 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00110111 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000011 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000001 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000010 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00111000 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000011 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000001 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000010 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 01100001 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000011 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000001 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000010 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 01100010 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000011 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000001 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000010 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 01100011 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000011 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000001 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000010 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 01100100 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000011 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000001 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000010 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 01100101 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000011 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000001 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000010 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 01100110 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000011 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000001 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000010 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 01100111 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000011 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000001 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000010 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 01101000 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000011 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000001 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000010 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 01101001 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps
+force -freeze sim:top_level/serialFPGA1/receive 0 0
+force -freeze sim:top_level/serialFPGA1/receive_data 00000011 0
+run 10ps
+force -freeze sim:top_level/serialFPGA1/receive 1 0
+run 20ps

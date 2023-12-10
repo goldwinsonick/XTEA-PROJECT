@@ -4,16 +4,17 @@ use IEEE.numeric_std.all;
 
 entity top_level is
     port(
-        i_rst, i_clk : in std_logic; -- reset and clock
-        i_rx : in std_logic; -- RX to PC
-        o_tx : out std_logic -- TX to PC
+        i_rst_n, i_clk      : in std_logic; -- reset and clock
+        i_rx                : in std_logic; -- RX to PC
+        o_tx                : out std_logic; -- TX to PC
+        Seven_segment1      : out std_logic_vector(7 downto 0)
     );
 end entity;
 
 architecture top_level_arc of top_level is
     component serialFPGA is
         port(
-            i_clk, i_rst        : in std_logic;
+            i_clk, i_rst_n      : in std_logic;
             i_rx                : in std_logic;
             o_tx                : out std_logic;
             i_v0                : in std_logic_vector(31 downto 0);
@@ -53,6 +54,18 @@ architecture top_level_arc of top_level is
         );
     end component;
 
+    component demux_4in_1 is
+        port(
+            i_data  : in std_logic;
+            sel     : in std_logic_vector(1 downto 0);
+
+            o_data0     : out std_logic;
+            o_data1     : out std_logic;
+            o_data2     : out std_logic;
+            o_data3     : out std_logic
+        );
+    end component;
+
     component xtea_engine is
         port(
             i_clk, i_rst, i_start               : in std_logic;
@@ -63,6 +76,8 @@ architecture top_level_arc of top_level is
             o_done                              : out std_logic
         );
     end component;
+
+    signal i_rst        : std_logic;
 
     signal reg_data     : std_logic_vector(7 downto 0);
     signal reg_en       : std_logic;
@@ -84,10 +99,11 @@ architecture top_level_arc of top_level is
     signal out_sreg_ende    : std_logic_vector(7 downto 0);
 
 begin
+    i_rst <= i_rst_n;
     serialFPGA1 : serialFPGA
         port map(
             i_clk               => i_clk,
-            i_rst               => i_rst,
+            i_rst_n             => i_rst_n,
             i_rx                => i_rx,
             o_tx                => o_tx,
             i_v0                => xtea_out0,
@@ -99,82 +115,84 @@ begin
             o_proceed           => xtea_start
         );
     
-    demux_data : demux_4in
-        generic map(
-            n           => 8
-        )
-        port map(
-            i_data      => reg_data,
-            sel         => reg_sel,
-
-            o_data1     => in_sreg_msg,
-            o_data2     => in_sreg_key,
-            o_data3     => in_sreg_ende
-        );
-
-    demux_en : demux_4in
-        generic map(
-            n           => 1
-        )
-        port map(
-            i_data(0)      => reg_en,
-            sel         => reg_sel,
-
-            o_data1(0)     => en_sreg_msg,
-            o_data2(0)     => en_sreg_key,
-            o_data3(0)     => en_sreg_ende
-        );
-
-    sreg_msg : shift_register
-        generic map(
-            N   => 64
-        )
-        port map(
-            i_clk           => i_clk,
-            i_rst           => i_rst,
-            i_data          => in_sreg_msg,
-            i_en            => en_sreg_msg,
-            o_data          => out_sreg_msg
-        );
+    Seven_segment1 <= reg_data;
     
-    sreg_key : shift_register
-        generic map(
-            N   => 128
-        )
-        port map(
-            i_clk           => i_clk,
-            i_rst           => i_rst,
-            i_data          => in_sreg_key,
-            i_en            => en_sreg_key,
-            o_data          => out_sreg_key
-        );
+    -- demux_data : demux_4in
+    --     generic map(
+    --         n           => 8
+    --     )
+    --     port map(
+    --         i_data      => reg_data,
+    --         sel         => reg_sel,
 
-    sreg_ende : shift_register
-        generic map(
-            N   => 8
-        )
-        port map(
-            i_clk           => i_clk,
-            i_rst           => i_rst,
-            i_data          => in_sreg_ende,
-            i_en            => en_sreg_ende,
-            o_data          => out_sreg_ende
-        );
+    --         o_data1     => in_sreg_msg,
+    --         o_data2     => in_sreg_key,
+    --         o_data3     => in_sreg_ende
+    --     );
+    
+    -- demux_en : demux_4in_1 
+    --     port map(
+    --         i_data      => reg_en,
+    --         sel         => reg_sel,
 
-    xtea_engine1 : xtea_engine
-        port map(
-            i_clk           => i_clk,
-            i_rst           => i_rst,
-            i_start         => xtea_start,
-            i_v0            => out_sreg_msg(63 downto 32),
-            i_v1            => out_sreg_msg(31 downto 0),
-            i_ende          => out_sreg_ende(0),
-            i_key0          => out_sreg_key(127 downto 96),
-            i_key1          => out_sreg_key(95 downto 64),
-            i_key2          => out_sreg_key(63 downto 32),
-            i_key3          => out_sreg_key(31 downto 0),
-            o_out0          => xtea_out0,
-            o_out1          => xtea_out1,
-            o_done          => xtea_done
-        );
+    --         o_data1     => en_sreg_msg,
+    --         o_data2     => en_sreg_key,
+    --         o_data3     => en_sreg_ende
+    --     );
+
+    -- sreg_msg : shift_register
+    --     generic map(
+    --         N   => 64
+    --     )
+    --     port map(
+    --         i_clk           => i_clk,
+    --         i_rst           => i_rst,
+    --         i_data          => in_sreg_msg,
+    --         i_en            => en_sreg_msg,
+    --         o_data          => out_sreg_msg
+    --     );
+    
+    
+    -- sreg_key : shift_register
+    --     generic map(
+    --         N   => 128
+    --     )
+    --     port map(
+    --         i_clk           => i_clk,
+    --         i_rst           => i_rst,
+    --         i_data          => in_sreg_key,
+    --         i_en            => en_sreg_key,
+    --         o_data          => out_sreg_key
+    --     );
+
+    -- Seven_segment1 <= in_sreg_key(7 downto 0);
+
+    -- sreg_ende : shift_register
+    --     generic map(
+    --         N   => 8
+    --     )
+    --     port map(
+    --         i_clk           => i_clk,
+    --         i_rst           => i_rst,
+    --         i_data          => in_sreg_ende,
+    --         i_en            => en_sreg_ende,
+    --         o_data          => out_sreg_ende
+    --     );
+
+    -- xtea_engine1 : xtea_engine
+    --     port map(
+    --         i_clk           => i_clk,
+    --         i_rst           => i_rst,
+    --         i_start         => xtea_start,
+    --         i_v0            => out_sreg_msg(63 downto 32),
+    --         i_v1            => out_sreg_msg(31 downto 0),
+    --         i_ende          => out_sreg_ende(0),
+    --         i_key0          => out_sreg_key(127 downto 96),
+    --         i_key1          => out_sreg_key(95 downto 64),
+    --         i_key2          => out_sreg_key(63 downto 32),
+    --         i_key3          => out_sreg_key(31 downto 0),
+    --         o_out0          => xtea_out0,
+    --         o_out1          => xtea_out1,
+    --         o_done          => xtea_done
+    --     );
 end top_level_arc;

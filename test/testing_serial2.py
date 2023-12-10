@@ -55,7 +55,7 @@ def sendByte(comm, vals):
 
 def strbinary(stri):
     return [bin(ord(char))[2:].zfill(8) for char in stri]
-key = "12345678abcdefghi"
+key = "12345678abcdefgh"
 # msg = "Passworld Email : helloworld12345"
 msg = "abcdefgh"
 ende = "1"

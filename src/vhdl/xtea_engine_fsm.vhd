@@ -43,9 +43,9 @@ architecture fsm of xtea_engine_fsm is
                 nextState <= s_waiting;
 
             when s_waiting =>
+                done        <= '0';
                 prevStart <= start;
                 if (prevStart='0' and start='1') then
-                    done        <= '0';
                     nextState <= s_load;
                 end if;
 

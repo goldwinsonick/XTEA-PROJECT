@@ -51,7 +51,7 @@ void decipher(unsigned int num_rounds, uint32_t v[2], uint32_t const key[4]) {
 }
 
 int main(){
-    cout<<bitset<32>(0xAAAAAAAA)<<endl;
+    // cout<<bitset<32>(0xAAAAAAAA)<<endl;
     uint32_t msg[2] = {0b01101000011001010110110001101100, 0b01101111001100010011001000110011};
     uint32_t key[4] = {
         0b00110001001100100011001100110100, 
@@ -60,10 +60,10 @@ int main(){
         0b00110101001101100011011100111000
     };
     // cout<<"hello"<<endl;
-    // encipher(32, msg, key);
+    encipher(32, msg, key);
     // cout<<bitset<32>(0x9e5eeedf)<<endl;
     // cout<<bitset<32>(0xb7abac28)<<endl;
 
-    uint32_t msg2[2] = {0x9e5eeedf, 0xb7abac28};
-    decipher(32, msg2, key);
+    // uint32_t msg2[2] = {0x9e5eeedf, 0xb7abac28};
+    // decipher(32, msg2, key);
 }

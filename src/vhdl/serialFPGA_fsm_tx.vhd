@@ -4,7 +4,7 @@ use IEEE.numeric_std.all;
 
 entity serialFPGA_fsm_tx is
     port(
-        rst, clk        : in std_logic;
+        rst_n, clk      : in std_logic;
         i_v0            : in std_logic_vector(31 downto 0); 
         i_v1            : in std_logic_vector(31 downto 0);
         i_done          : in std_logic;
@@ -16,58 +16,45 @@ end entity;
 
 architecture behavioral of serialFPGA_fsm_tx is
     type states is (
-        init, s_waiting, s_read_1, s_read_2
+        s_waiting, s_startbyte, s_reading, s_stopbyte
     );
-    signal nextState, currentState  : states;
+    signal currentState         : states := s_waiting;
+    signal i_done_c             : std_logic;
 
-    signal cnt              : integer := 0; -- v0 and v1 index
-    signal vidx             : std_logic;    -- v0 or v1
+    signal cnt      : integer := 0;
 begin
-    process(rst, clk)
+    process(clk)
     begin
-        if (rst = '1') then
-            currentState <= init;
-        elsif rising_edge(clk) then
-            currentState <= nextState;
+        o_send <= '1';
+        if i_tx_ready='1' then
+            case currentState is
+                when s_waiting =>
+                    i_done_c <= i_done;
+                    if(i_done_c='0' and i_done='1')then
+                        currentState <= s_startbyte;
+                    end if;
+                    -- if(i_done = '1')then
+                    --     currentState <= s_startbyte;
+                    -- end if;
+                when s_startbyte =>
+                    o_sendByte  <= "00100011";
+                    o_send      <= '0';
+                    cnt <= 0;
+                    currentState <= s_reading;
+                when s_reading =>
+                    if(cnt < 4)then
+                        o_sendByte <= i_v0( 8*(cnt+1)-1 downto 8*cnt);
+                    elsif(4 <= cnt and cnt < 7)then
+                        o_sendByte <= i_v1( 8*(cnt+1)-1 downto 8*cnt);
+                    else -- cnt > 7
+                        currentState <= s_stopbyte;
+                    end if;
+                    o_send <= '0';
+                when s_stopbyte =>
+                    o_sendByte <= "00100011";
+                    o_send <= '0';
+                    currentState <= s_waiting;
+            end case;
         end if;
-    end process;
-
-    process(currentState)
-    begin
-        case currentState is
-            when init =>
-                nextState <= s_waiting;
-            when s_waiting =>
-                if i_done = '1' then
-                    vidx    <= '0';
-                    cnt     <= 0;
-                    nextState <= s_read_1;
-                end if;
-            when s_read_1 =>
-                if i_tx_ready = '1' then
-                    if(vidx = '0')then
-                        o_sendByte  <= i_v0( 8*(cnt+1)-1 downto 8*cnt);
-                    else
-                        o_sendByte  <= i_v1( 8*(cnt+1)-1 downto 8*cnt);
-                    end if;
-                    o_send      <= '1';
-
-                    cnt <= cnt + 1;
-                    if(cnt = 3)then
-                        if(vidx <= '0')then
-                            vidx<='1';
-                            nextState <= s_read_2;
-                            cnt <= 0;
-                        else
-                            nextState <= s_waiting;
-                        end if;
-                    else 
-                        nextState <= s_read_2;
-                    end if;
-                end if;
-            when s_read_2 =>
-                o_send  <= '0';
-                nextState <= s_read_1;
-        end case;
     end process;
 end behavioral;

@@ -14,7 +14,7 @@ port(
 				rs232_tx : out std_logic;
 				clk_bps: in std_logic;
 				bps_start : out std_logic;
-				ready	: out std_logic
+				tx_ready : out std_logic
 );
 end entity my_uart_tx;
 
@@ -30,6 +30,8 @@ architecture RTL of my_uart_tx is
 
 	
 begin
+	tx_ready <= tx_en;
+
 -- The process below is to ensure 'neg_rx_int' react to negative edge of rx interrupt 
 	process (clk,rst_n)
 	begin
@@ -83,16 +85,13 @@ begin
 	begin
 		if (rst_n = '0') then
 			num <= "0000";
-			
-			ready <= '1';
 			rs232_tx_r <= '1';
 		elsif (clk = '1' and clk'event) then
-			ready <= '0';
 			if(tx_en = '1') then
 				if(clk_bps = '1')	then
 						num <= num + "0001";
 						case num is
-							when "0000" => rs232_tx_r <= '0' ; 	
+							when "0000" => rs232_tx_r <= '0';
 							when "0001" => rs232_tx_r <= tx_data_i(0);	
 							when "0010" => rs232_tx_r <= tx_data_i(1);	
 							when "0011" => rs232_tx_r <= tx_data_i(2);	

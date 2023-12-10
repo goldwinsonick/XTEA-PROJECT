@@ -5,7 +5,7 @@ use IEEE.numeric_std.all;
 entity serialFPGA is
     port(
         -- clockk and reset
-        i_clk, i_rst    : in std_logic;
+        i_clk, i_rst_n    : in std_logic;
 
         -- PC Serial
         i_rx            : in std_logic;
@@ -28,22 +28,22 @@ architecture serialFPGA_arc of serialFPGA is
     component my_uart_top is
         port(
             clk 			: in std_logic;
-            rst_n 		: in std_logic;
+            rst_n 		    : in std_logic;
             -- paralel part
             send 			: in std_logic;
             send_data	    : in std_logic_vector(7 downto 0) ;
             receive 		: out std_logic;
             receive_data    : out std_logic_vector(7 downto 0);
             -- serial part
-            rs232_rx 	: in std_logic;
-            rs232_tx 	: out std_logic;
-            tx_ready    : out std_logic
+            rs232_rx 	    : in std_logic;
+            rs232_tx 	    : out std_logic;
+            tx_ready        : out std_logic
         );
     end component;
 
     component serialFPGA_fsm_rx is
         port(
-            rst, clk        : in std_logic;
+            rst_n, clk      : in std_logic;
             i_recvByte      : in std_logic_vector(7 downto 0);
             i_recv          : in std_logic;
             o_reg_data      : out std_logic_vector(7 downto 0);
@@ -55,7 +55,7 @@ architecture serialFPGA_arc of serialFPGA is
 
     component serialFPGA_fsm_tx is
         port(
-            rst, clk        : in std_logic;
+            rst_n, clk      : in std_logic;
             i_v0            : in std_logic_vector(31 downto 0); 
             i_v1            : in std_logic_vector(31 downto 0);
             i_done          : in std_logic;
@@ -70,15 +70,14 @@ architecture serialFPGA_arc of serialFPGA is
 
     signal send         : std_logic;
     signal send_data    : std_logic_vector(7 downto 0);
+
     signal tx_ready     : std_logic;
 
-    signal not_rst      : std_logic;
 begin
-    not_rst <= not(i_rst);
     uart_top : my_uart_top
         port map(
             clk             => i_clk,
-            rst_n           => not_rst, -- active low
+            rst_n           => i_rst_n, -- active low
             send            => send,
             send_data       => send_data,
             receive         => receive,
@@ -89,7 +88,7 @@ begin
         );
     serialFPGA_fsm_rx1 : serialFPGA_fsm_rx
         port map(
-            rst             => i_rst,
+            rst_n           => i_rst_n,
             clk             => i_clk,
             i_recvByte      => receive_data,
             i_recv          => receive,
@@ -100,7 +99,7 @@ begin
         );
     serialFPGA_fsm_tx1  : serialFPGA_fsm_tx
         port map(
-            rst             => i_rst,
+            rst_n           => i_rst_n,
             clk             => i_clk,
             i_v0            => i_v0,
             i_v1            => i_v1,

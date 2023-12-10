@@ -22,7 +22,7 @@ port(
 		rs232_rx 	: in std_logic;
 		rs232_tx 	: out std_logic;
 
-		tx_ready		: out std_logic
+		tx_ready	: out std_logic
 );
 end entity;
 
@@ -37,8 +37,7 @@ Architecture structural of my_uart_top is
 				rs232_tx 	: out std_logic;
 				clk_bps		: in std_logic;
 				bps_start 	: out std_logic;
-				ready		: out std_logic
-
+				tx_ready	: out std_logic
 	);
 	end component;
 	
@@ -67,7 +66,6 @@ Architecture structural of my_uart_top is
 	signal clk_bps_rx,clk_bps_tx: std_logic;		 
 	
 begin
-
 	speed_rx	: speed_select
 					port map (	
 							clk => clk,	
@@ -105,7 +103,7 @@ begin
 							rs232_tx => rs232_tx,
 							clk_bps => clk_bps_tx,
 							bps_start => bps_start_tx,
-							ready => tx_ready
+							tx_ready => tx_ready
 						);
 						
 

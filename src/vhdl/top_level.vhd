@@ -4,11 +4,11 @@ use ieee.std_logic_1164.all;
 -- entity
 entity top_level is
 	port(
-		clk 				: in std_logic;
+		clk 			: in std_logic;
 		rst_n 			: in std_logic;
 		button 			: in std_logic;
 		Seven_Segment	: out std_logic_vector(7 downto 0) ;
-		Digit_SS			: out std_logic_vector(3 downto 0) ;
+		Digit_SS		: out std_logic_vector(3 downto 0) ;
 		rs232_rx 		: in std_logic;
 		rs232_tx 		: out std_logic;
         led1            : out std_logic
@@ -17,15 +17,14 @@ end entity;
 architecture RTL of top_level is
 	component my_uart_top is
 	port(
-			clk 			: in std_logic;
+			clk 		: in std_logic;
 			rst_n 		: in std_logic;
-			send 			: in std_logic;
+			send 		: in std_logic;
 			send_data	: in std_logic_vector(7 downto 0) ;
-			receive 		: out std_logic;
+			receive 	: out std_logic;
 			receive_data: out std_logic_vector(7 downto 0) ;
 			rs232_rx 	: in std_logic;
-			rs232_tx 	: out std_logic;
-            tx_ready    : out std_logic
+			rs232_tx 	: out std_logic
 	);
 	end component;
 	
@@ -71,7 +70,6 @@ architecture RTL of top_level is
     signal idx_tx   : integer := 0;
 
     signal xtea_done    : std_logic;
-    signal temp : std_logic;
 
 begin
     led1    <= reg_ende;
@@ -189,7 +187,6 @@ begin
         end if;
     end process;
 
-    temp <= not(button);
     xtea_engine1 : xtea_engine
         port map(
             i_clk   => clk,

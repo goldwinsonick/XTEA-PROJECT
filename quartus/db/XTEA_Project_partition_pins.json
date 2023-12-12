@@ -1,0 +1,61 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "Seven_Segment[0]",
+					"strict" : false
+				},
+				{
+					"name" : "Seven_Segment[1]",
+					"strict" : false
+				},
+				{
+					"name" : "Seven_Segment[2]",
+					"strict" : false
+				},
+				{
+					"name" : "Seven_Segment[3]",
+					"strict" : false
+				},
+				{
+					"name" : "Seven_Segment[4]",
+					"strict" : false
+				},
+				{
+					"name" : "Seven_Segment[5]",
+					"strict" : false
+				},
+				{
+					"name" : "Seven_Segment[6]",
+					"strict" : false
+				},
+				{
+					"name" : "Seven_Segment[7]",
+					"strict" : false
+				},
+				{
+					"name" : "rs232_tx",
+					"strict" : false
+				},
+				{
+					"name" : "led1",
+					"strict" : false
+				},
+				{
+					"name" : "clk",
+					"strict" : false
+				},
+				{
+					"name" : "rst_n",
+					"strict" : false
+				},
+				{
+					"name" : "rs232_rx",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

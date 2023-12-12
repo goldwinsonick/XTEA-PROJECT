@@ -63,7 +63,7 @@ architecture RTL of top_level is
 
     -- TX
     type txStates is (
-        s_waiting, s_send, s_stop
+        s_waiting, s_send
     );
     signal txState         : txStates := s_waiting;
     signal cnt_tx   : integer := 0;
@@ -120,12 +120,10 @@ begin
                         end if;
 
                     when s_msg =>
-                        -- seven_segment <= "00000101";
                         if(receive_data = "00100011")then
                             rxState <= s_waiting;
                         else
                             if(cnt<8)then
-                                -- reg_msg(8*(cnt+1)-1 downto 8*cnt) <= receive_data;
                                 reg_msg(8*(cnt+1)-1 downto 8*cnt) <= receive_data;
                                 cnt <= cnt + 1;
                             else
@@ -141,7 +139,6 @@ begin
                         end if;
 
                     when s_key =>
-                        -- seven_segment <= "00001001";
                         if(receive_data = "00100011")then
                             rxState <= s_waiting;
                         else
@@ -174,15 +171,10 @@ begin
                             send <= '0';
                             idx_tx <= idx_tx + 1;
                         else
-                            txState <= s_stop;
+                            txState <= s_waiting;
                         end if;
                         cnt_tx<=0;
                     end if;
-                when s_stop =>
-                    idx_tx <= 0;
-                    send_data <= "00100011";
-                    send <= '0';
-                    txState <= s_waiting;
             end case;
         end if;
     end process;

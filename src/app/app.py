@@ -55,6 +55,7 @@ class Ser:
 
                 self.sendData(b'#')
                 self.sendData(b'#pa##')
+                time.sleep(0.05)
 
 class App(tk.Frame):
     def __init__(self, root):

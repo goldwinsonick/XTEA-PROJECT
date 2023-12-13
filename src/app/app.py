@@ -10,6 +10,7 @@ class Ser:
         self.STARTBYTE = b'#'
         self.STOPBYTE = b'#'
         self.cnt = 0;
+        self.starttime = datetime.now()
 
     def configureSerial(self, port, baudrate):
         self.ser.close()
@@ -30,16 +31,19 @@ class Ser:
                 if(self.ser.inWaiting() > 0):
                     temp += 1
                     recvByte = self.ser.read(1)
-                    print("Recieved: ", end="")
-                    print(recvByte)
+                    # print("Recieved: ", end="")
+                    # print(recvByte)
                     output_file.write(recvByte)
                 if(temp >= self.cnt):
+                    timedelta = datetime.now() - self.starttime
+                    print("Processed to {} in {} seconds.".format(output_path, str(timedelta.seconds + timedelta.microseconds/1000000)))
                     break
 
     def sendData(self, data):
         self.ser.write(data)
 
     def sendFile(self, file_path):
+        self.starttime = datetime.now()
         self.cnt = 0
         with open(file_path, 'rb') as file:
             while True:
@@ -55,7 +59,7 @@ class Ser:
 
                 self.sendData(b'#')
                 self.sendData(b'#pa##')
-                time.sleep(0.05)
+                time.sleep(0.02)
 
 class App(tk.Frame):
     def __init__(self, root):

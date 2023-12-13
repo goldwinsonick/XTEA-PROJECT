@@ -48,3 +48,8 @@ Update Port untuk set Port FPGA.
 5. Tekan Encrypt untuk Encrypt atau Decrypt untuk Decrypt.
 
 Jika berhasil, maka file akan muncul di Path Output yang telah ditentukan.
+
+
+<div style="font-size:0.2em">Damn, this project broke me to cry at 07.00AM in the morning. 1 Hour before final presentation. No sleep at all.
+
+Other than that, It's fun and I love this project.</div>

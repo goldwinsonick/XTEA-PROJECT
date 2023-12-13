@@ -23,17 +23,17 @@ class Ser:
         return ports
 
     def readData(self, output_path):
-        print(self.cnt)
+        print("Waiting for " + str(self.cnt) + " bytes...")
         temp = 0
         with open(output_path, 'wb') as output_file:
             while True:
                 if(self.ser.inWaiting() > 0):
                     temp += 1
                     recvByte = self.ser.read(1)
+                    print("Recieved: ", end="")
                     print(recvByte)
                     output_file.write(recvByte)
                 if(temp >= self.cnt):
-                    self.ser.read(1)
                     break
 
     def sendData(self, data):
@@ -44,13 +44,16 @@ class Ser:
         with open(file_path, 'rb') as file:
             while True:
                 self.sendData(b'#m')
+
                 msg = file.read(8)
                 if(not msg):
                     break
                 self.cnt+=8
                 self.ser.write(msg)
-                self.sendData(b'#')
+                for i in range(8-len(msg)):
+                    self.ser.write(b' ')
 
+                self.sendData(b'#')
                 self.sendData(b'#pa##')
 
 class App(tk.Frame):

@@ -1,5 +1,5 @@
 Fitter report for XTEA_Project
-Tue Dec 12 07:29:04 2023
+Wed Dec 13 17:33:30 2023
 Quartus Prime Version 22.1std.2 Build 922 07/20/2023 SC Lite Edition
 
 
@@ -68,7 +68,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------------------------+
 ; Fitter Summary                                                                      ;
 +------------------------------------+------------------------------------------------+
-; Fitter Status                      ; Successful - Tue Dec 12 07:29:04 2023          ;
+; Fitter Status                      ; Successful - Wed Dec 13 17:33:29 2023          ;
 ; Quartus Prime Version              ; 22.1std.2 Build 922 07/20/2023 SC Lite Edition ;
 ; Revision Name                      ; XTEA_Project                                   ;
 ; Top-level Entity Name              ; top_level                                      ;
@@ -154,18 +154,18 @@ https://fpgasoftware.intel.com/eula.
 ; Number detected on machine ; 16          ;
 ; Maximum allowed            ; 16          ;
 ;                            ;             ;
-; Average used               ; 1.24        ;
+; Average used               ; 1.23        ;
 ; Maximum used               ; 16          ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
 ;     Processor 2            ;   1.7%      ;
 ;     Processor 3            ;   1.7%      ;
-;     Processor 4            ;   1.7%      ;
+;     Processor 4            ;   1.6%      ;
 ;     Processor 5            ;   1.6%      ;
 ;     Processor 6            ;   1.6%      ;
 ;     Processor 7            ;   1.6%      ;
-;     Processor 8            ;   1.6%      ;
+;     Processor 8            ;   1.5%      ;
 ;     Processors 9-16        ;   1.5%      ;
 +----------------------------+-------------+
 
@@ -1079,7 +1079,7 @@ Info (170195): Router estimated average interconnect usage is 1% of the availabl
 Info (170199): The Fitter performed an Auto Fit compilation.  Optimizations were skipped to reduce compilation time.
     Info (170201): Optimizations that may affect the design's routability were skipped
 Info (170194): Fitter routing operations ending: elapsed time is 00:00:01
-Info (11888): Total time spent on timing analysis during the Fitter is 0.50 seconds.
+Info (11888): Total time spent on timing analysis during the Fitter is 0.47 seconds.
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (334003): Started post-fitting delay annotation
@@ -1087,10 +1087,10 @@ Info (334004): Delay annotation completed successfully
 Info (11218): Fitter post-fit operations ending: elapsed time is 00:00:00
 Info (144001): Generated suppressed messages file C:/Users/goldw/Documents/gswt/Project/tubes-sisdig/tubes-sisdig-2023/quartus/output_files/XTEA_Project.fit.smsg
 Info: Quartus Prime Fitter was successful. 0 errors, 4 warnings
-    Info: Peak virtual memory: 6548 megabytes
-    Info: Processing ended: Tue Dec 12 07:29:04 2023
-    Info: Elapsed time: 00:00:07
-    Info: Total CPU time (on all processors): 00:00:04
+    Info: Peak virtual memory: 6532 megabytes
+    Info: Processing ended: Wed Dec 13 17:33:30 2023
+    Info: Elapsed time: 00:00:08
+    Info: Total CPU time (on all processors): 00:00:02
 
 
 +----------------------------+
